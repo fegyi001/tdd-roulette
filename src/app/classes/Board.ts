@@ -13,19 +13,19 @@ export class Board {
   }
 
   public roll(betMoney: number, betType: BetType, betNumber?: number): number {
-    const spinnedNumber = this.rouletteWheel.spin()
+    const spunNumber = this.rouletteWheel.spin()
     if (betType === BetType.ONE_NUMBER) {
-      return spinnedNumber === betNumber
+      return spunNumber === betNumber
         ? betMoney * this.payMultiplierForOneNumber
         : this.payLostGame
     }
     if (betType === BetType.PASSE) {
-      return spinnedNumber > 18
+      return spunNumber > 18
         ? betMoney * this.payMultiplierForBinaryChoice
         : this.payLostGame
     }
     if (betType === BetType.MANQUE) {
-      return spinnedNumber > 0 && spinnedNumber < 19
+      return spunNumber > 0 && spunNumber < 19
         ? betMoney * this.payMultiplierForBinaryChoice
         : this.payLostGame
     }
