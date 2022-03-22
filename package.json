@@ -9,8 +9,9 @@
     "test": "ng test",
     "test:headless": "ng test --browsers=ChromeHeadless",
     "lint": "ng lint",
-    "prettier": "prettier '**/*.{html,yml,yaml,json}'",
-    "stylelint": "stylelint \"**/*.scss\"",
+    "eslint": "eslint",
+    "prettier": "prettier",
+    "stylelint": "stylelint",
     "commitlint": "commitlint",
     "prepare": "husky install"
   },
@@ -70,14 +71,14 @@
     "yarn": "^1.22.18"
   },
   "lint-staged": {
-    "*.ts": [
-      "yarn eslint --fix"
+    "src/**/*.ts": [
+      "eslint . --fix"
     ],
-    "*.scss": [
-      "yarn stylelint --fix"
+    "src/**/*.scss": [
+      "stylelint --fix"
     ],
-    "*.html,*.yml,*.yaml,*.json": [
-      "yarn prettier --write"
+    "src/**/*.{html,yml,yaml,json}": [
+      "prettier --write"
     ]
   }
 }
