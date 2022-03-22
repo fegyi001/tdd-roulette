@@ -103,9 +103,23 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "eslintConfig": ".eslintrc.js",
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "tdd-start"
+  "defaultProject": "tdd-start",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics",
+    "packageManager": "yarn"
+  }
 }
