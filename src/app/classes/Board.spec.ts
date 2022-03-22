@@ -1,4 +1,4 @@
-import { BetType } from './BetType'
+import { BetType } from '../enums/BetType'
 import { Board } from './Board'
 import { RouletteWheel } from './RouletteWheel'
 
