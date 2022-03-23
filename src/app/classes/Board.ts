@@ -7,28 +7,53 @@ export class Board {
   payLostGame = 0
 
   private rouletteWheel: RouletteWheel
+  private spunNumber = -1
 
   constructor(wheel: RouletteWheel) {
     this.rouletteWheel = wheel
   }
 
   public roll(betMoney: number, betType: BetType, betNumber?: number): number {
-    const spunNumber = this.rouletteWheel.spin()
+    this.spunNumber = this.rouletteWheel.spin()
     if (betType === BetType.ONE_NUMBER) {
-      return spunNumber === betNumber
-        ? betMoney * this.payMultiplierForOneNumber
-        : this.payLostGame
+      return this.calculateOneNumberPay(betNumber, betMoney)
     }
     if (betType === BetType.PASSE) {
-      return spunNumber > 18
-        ? betMoney * this.payMultiplierForBinaryChoice
-        : this.payLostGame
+      return this.calculatePasseCasePay(betMoney)
     }
     if (betType === BetType.MANQUE) {
-      return spunNumber > 0 && spunNumber < 19
-        ? betMoney * this.payMultiplierForBinaryChoice
-        : this.payLostGame
+      return this.calculateManqueCasePay(betMoney)
+    }
+    if (betType === BetType.PAIR) {
+      return this.calculatePairCasePay(betMoney)
     }
     throw new Error('Bet type not supported')
+  }
+
+  private calculateOneNumberPay(
+    betNumber: number | undefined,
+    betMoney: number
+  ) {
+    return this.spunNumber === betNumber
+      ? betMoney * this.payMultiplierForOneNumber
+      : this.payLostGame
+  }
+
+  private calculatePasseCasePay(betMoney: number) {
+    return this.spunNumber > 18
+      ? betMoney * this.payMultiplierForBinaryChoice
+      : this.payLostGame
+  }
+
+  private calculateManqueCasePay(betMoney: number) {
+    return this.spunNumber > 0 && this.spunNumber < 19
+      ? betMoney * this.payMultiplierForBinaryChoice
+      : this.payLostGame
+  }
+
+  private calculatePairCasePay(betMoney: number) {
+    return this.spunNumber % 2 === 0 && this.spunNumber !== 0
+      ? betMoney * this.payMultiplierForBinaryChoice
+      : this.payLostGame
   }
 }

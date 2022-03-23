@@ -40,13 +40,28 @@ describe('Board', () => {
     expect(board.roll(betMoney, BetType.MANQUE)).toEqual(200)
   })
 
-  it('Bet MANQUE loose with 0', () => {
+  it('Bet MANQUE loose', () => {
     const board = createSpyBoard(0)
     expect(board.roll(betMoney, BetType.MANQUE)).toEqual(moneyWhenPlayerLost)
   })
 
-  it('Bet MANQUE loose with 19', () => {
+  it('Bet MANQUE loose', () => {
     const board = createSpyBoard(19)
     expect(board.roll(betMoney, BetType.MANQUE)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet PAIR win 1x', () => {
+    const board = createSpyBoard(10)
+    expect(board.roll(betMoney, BetType.PAIR)).toEqual(200)
+  })
+
+  it('Bet PAIR loose', () => {
+    const board = createSpyBoard(9)
+    expect(board.roll(betMoney, BetType.PAIR)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet PAIR loose', () => {
+    const board = createSpyBoard(0)
+    expect(board.roll(betMoney, BetType.PAIR)).toEqual(moneyWhenPlayerLost)
   })
 })
