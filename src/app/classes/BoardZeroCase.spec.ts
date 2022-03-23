@@ -39,4 +39,66 @@ describe('Board', () => {
   it('Bet IMPAIR loose', () => {
     expect(board.roll(betMoney, BetType.IMPAIR)).toEqual(moneyWhenPlayerLost)
   })
+
+  it('Bet RED loose', () => {
+    expect(board.roll(betMoney, BetType.RED)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet BLACK loose', () => {
+    expect(board.roll(betMoney, BetType.BLACK)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet PREMIER loose', () => {
+    expect(board.roll(betMoney, BetType.PREMIER)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet MOYEN loose', () => {
+    expect(board.roll(betMoney, BetType.MOYEN)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet DERNIER loose', () => {
+    expect(board.roll(betMoney, BetType.DERNIER)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet TOP_COLUMN loose', () => {
+    expect(board.roll(betMoney, BetType.TOP_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet MIDDLE_COLUMN loose', () => {
+    expect(board.roll(betMoney, BetType.MIDDLE_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet BOTTOM_COLUMN loose', () => {
+    expect(board.roll(betMoney, BetType.BOTTOM_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet SIX_NUMBERED loose', () => {
+    expect(board.roll(betMoney, BetType.SIX_NUMBERED)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet FOUR_NUMBERED loose', () => {
+    expect(board.roll(betMoney, BetType.FOUR_NUMBERED)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet THREE_NUMBERED loose', () => {
+    expect(board.roll(betMoney, BetType.THREE_NUMBERED)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet TWO_NUMBERED loose', () => {
+    expect(board.roll(betMoney, BetType.TWO_NUMBERED)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
 })
