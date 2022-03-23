@@ -14,9 +14,42 @@ export class Board {
   }
 
   public roll(betMoney: number, betType: BetType, betNumber?: number): number {
+    this.nextSpin()
+    return this.calculatePay(betType, betMoney, betNumber)
+  }
+
+  private nextSpin() {
     this.spunNumber = this.rouletteWheel.spin()
+  }
+
+  private calculatePay(
+    betType: BetType,
+    betMoney: number,
+    betNumber?: number
+  ): number {
+    return this.spunNumber === 0
+      ? this.calculateZeroCasePay(betType, betMoney, betNumber)
+      : this.calculateNormalCasePay(betType, betMoney, betNumber)
+  }
+
+  private calculateZeroCasePay(
+    betType: BetType,
+    betMoney: number,
+    betNumber?: number
+  ): number {
     if (betType === BetType.ONE_NUMBER) {
-      return this.calculateOneNumberPay(betNumber, betMoney)
+      return this.calculateOneNumberCasePay(betNumber, betMoney)
+    }
+    return 0
+  }
+
+  private calculateNormalCasePay(
+    betType: BetType,
+    betMoney: number,
+    betNumber?: number
+  ): number {
+    if (betType === BetType.ONE_NUMBER) {
+      return this.calculateOneNumberCasePay(betNumber, betMoney)
     }
     if (betType === BetType.PASSE) {
       return this.calculatePasseCasePay(betMoney)
@@ -27,10 +60,13 @@ export class Board {
     if (betType === BetType.PAIR) {
       return this.calculatePairCasePay(betMoney)
     }
+    if (betType === BetType.IMPAIR) {
+      return this.calculateImpairCasePay(betMoney)
+    }
     throw new Error('Bet type not supported')
   }
 
-  private calculateOneNumberPay(
+  private calculateOneNumberCasePay(
     betNumber: number | undefined,
     betMoney: number
   ) {
@@ -46,13 +82,19 @@ export class Board {
   }
 
   private calculateManqueCasePay(betMoney: number) {
-    return this.spunNumber > 0 && this.spunNumber < 19
+    return this.spunNumber < 19
       ? betMoney * this.payMultiplierForBinaryChoice
       : this.payLostGame
   }
 
   private calculatePairCasePay(betMoney: number) {
-    return this.spunNumber % 2 === 0 && this.spunNumber !== 0
+    return this.spunNumber % 2 === 0
+      ? betMoney * this.payMultiplierForBinaryChoice
+      : this.payLostGame
+  }
+
+  private calculateImpairCasePay(betMoney: number) {
+    return this.spunNumber % 2 === 1
       ? betMoney * this.payMultiplierForBinaryChoice
       : this.payLostGame
   }

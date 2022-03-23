@@ -13,19 +13,19 @@ describe('Board', () => {
   const betMoney = 100
   const moneyWhenPlayerLost = 0
 
-  it('Bet 0 win 35x', () => {
-    const board = createSpyBoard(0)
-    expect(board.roll(betMoney, BetType.ONE_NUMBER, 0)).toEqual(3600)
+  it('Bet ONE_NUMBER win', () => {
+    const board = createSpyBoard(10)
+    expect(board.roll(betMoney, BetType.ONE_NUMBER, 10)).toEqual(3600)
   })
 
-  it('Bet 10 loose', () => {
-    const board = createSpyBoard(0)
+  it('Bet ONE_NUMBER loose', () => {
+    const board = createSpyBoard(9)
     expect(board.roll(betMoney, BetType.ONE_NUMBER, 10)).toEqual(
       moneyWhenPlayerLost
     )
   })
 
-  it('Bet PASSE win 1x', () => {
+  it('Bet PASSE win', () => {
     const board = createSpyBoard(19)
     expect(board.roll(betMoney, BetType.PASSE)).toEqual(200)
   })
@@ -35,14 +35,9 @@ describe('Board', () => {
     expect(board.roll(betMoney, BetType.PASSE)).toEqual(moneyWhenPlayerLost)
   })
 
-  it('Bet MANQUE win 1x', () => {
+  it('Bet MANQUE win', () => {
     const board = createSpyBoard(1)
     expect(board.roll(betMoney, BetType.MANQUE)).toEqual(200)
-  })
-
-  it('Bet MANQUE loose', () => {
-    const board = createSpyBoard(0)
-    expect(board.roll(betMoney, BetType.MANQUE)).toEqual(moneyWhenPlayerLost)
   })
 
   it('Bet MANQUE loose', () => {
@@ -50,7 +45,7 @@ describe('Board', () => {
     expect(board.roll(betMoney, BetType.MANQUE)).toEqual(moneyWhenPlayerLost)
   })
 
-  it('Bet PAIR win 1x', () => {
+  it('Bet PAIR win', () => {
     const board = createSpyBoard(10)
     expect(board.roll(betMoney, BetType.PAIR)).toEqual(200)
   })
@@ -60,8 +55,13 @@ describe('Board', () => {
     expect(board.roll(betMoney, BetType.PAIR)).toEqual(moneyWhenPlayerLost)
   })
 
-  it('Bet PAIR loose', () => {
-    const board = createSpyBoard(0)
-    expect(board.roll(betMoney, BetType.PAIR)).toEqual(moneyWhenPlayerLost)
+  it('Bet IMPAIR win', () => {
+    const board = createSpyBoard(9)
+    expect(board.roll(betMoney, BetType.IMPAIR)).toEqual(200)
+  })
+
+  it('Bet IMPAIR loose', () => {
+    const board = createSpyBoard(10)
+    expect(board.roll(betMoney, BetType.IMPAIR)).toEqual(moneyWhenPlayerLost)
   })
 })

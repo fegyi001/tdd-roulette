@@ -2,5 +2,6 @@ export enum BetType {
   ONE_NUMBER,
   PASSE,
   MANQUE,
-  PAIR
+  PAIR,
+  IMPAIR
 }
