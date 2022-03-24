@@ -76,6 +76,9 @@ export class Board {
     if (betType === BetType.MOYEN) {
       return this.calculateMoyenCasePay(betMoney)
     }
+    if (betType === BetType.DERNIER) {
+      return this.calculateDernierCasePay(betMoney)
+    }
     throw new Error('Bet type not supported')
   }
 
@@ -83,45 +86,91 @@ export class Board {
     betNumber: number | undefined,
     betMoney: number
   ) {
-    return this.spunNumber === betNumber
-      ? betMoney * this.payMultiplierForOneNumber
-      : this.payLostGame
+    return this.calculatePaidMoney(
+      this.spunNumber === betNumber,
+      betMoney,
+      this.payMultiplierForOneNumber
+    )
   }
 
   private calculatePasseCasePay(betMoney: number) {
-    return this.spunNumber > 18
-      ? betMoney * this.payMultiplierForBinaryChoice
-      : this.payLostGame
+    return this.calculatePaidMoney(
+      this.spunNumber > 18,
+      betMoney,
+      this.payMultiplierForBinaryChoice
+    )
   }
 
   private calculateManqueCasePay(betMoney: number) {
-    return this.spunNumber < 19
-      ? betMoney * this.payMultiplierForBinaryChoice
-      : this.payLostGame
+    return this.calculatePaidMoney(
+      this.spunNumber < 19,
+      betMoney,
+      this.payMultiplierForBinaryChoice
+    )
   }
 
   private calculatePairCasePay(betMoney: number) {
-    return this.spunNumber % 2 === 0
-      ? betMoney * this.payMultiplierForBinaryChoice
-      : this.payLostGame
+    return this.calculatePaidMoney(
+      this.spunNumber % 2 === 0,
+      betMoney,
+      this.payMultiplierForBinaryChoice
+    )
   }
 
   private calculateImpairCasePay(betMoney: number) {
-    return this.spunNumber % 2 === 1
-      ? betMoney * this.payMultiplierForBinaryChoice
-      : this.payLostGame
+    return this.calculatePaidMoney(
+      this.spunNumber % 2 === 1,
+      betMoney,
+      this.payMultiplierForBinaryChoice
+    )
   }
 
   private calculateRedNumberCasePay(betMoney: number) {
-    return this.isRedNumber()
-      ? betMoney * this.payMultiplierForBinaryChoice
-      : this.payLostGame
+    return this.calculatePaidMoney(
+      this.isRedNumber(),
+      betMoney,
+      this.payMultiplierForBinaryChoice
+    )
   }
 
   private calculateBlackNumberCasePay(betMoney: number) {
-    return this.isBlackNumber()
-      ? betMoney * this.payMultiplierForBinaryChoice
-      : this.payLostGame
+    return this.calculatePaidMoney(
+      this.isBlackNumber(),
+      betMoney,
+      this.payMultiplierForBinaryChoice
+    )
+  }
+
+  private calculatePremierCasePay(betMoney: number) {
+    return this.calculatePaidMoney(
+      this.isPremier(),
+      betMoney,
+      this.payMultiplierForDozenChoice
+    )
+  }
+
+  private calculateMoyenCasePay(betMoney: number) {
+    return this.calculatePaidMoney(
+      this.isMoyen(),
+      betMoney,
+      this.payMultiplierForDozenChoice
+    )
+  }
+
+  private calculateDernierCasePay(betMoney: number) {
+    return this.calculatePaidMoney(
+      this.isDernier(),
+      betMoney,
+      this.payMultiplierForDozenChoice
+    )
+  }
+
+  private calculatePaidMoney(
+    isWin: boolean,
+    betMoney: number,
+    multiplier: number
+  ) {
+    return isWin ? betMoney * multiplier : this.payLostGame
   }
 
   private isRedNumber() {
@@ -135,23 +184,15 @@ export class Board {
     return !this.isRedNumber()
   }
 
-  private calculatePremierCasePay(betMoney: number) {
-    return this.isPremier()
-      ? betMoney * this.payMultiplierForDozenChoice
-      : this.payLostGame
-  }
-
-  private calculateMoyenCasePay(betMoney: number) {
-    return this.isMoyen()
-      ? betMoney * this.payMultiplierForDozenChoice
-      : this.payLostGame
-  }
-
   private isPremier() {
     return this.spunNumber < 13
   }
 
+  private isDernier() {
+    return this.spunNumber > 24
+  }
+
   private isMoyen() {
-    return this.spunNumber > 12 && this.spunNumber < 25
+    return !(this.isPremier() || this.isDernier())
   }
 }

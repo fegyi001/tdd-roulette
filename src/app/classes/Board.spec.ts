@@ -123,4 +123,14 @@ describe('Board', () => {
     const board = createSpyBoard(25)
     expect(board.roll(betMoney, BetType.MOYEN)).toEqual(moneyWhenPlayerLost)
   })
+
+  it('Bet DERNIER win', () => {
+    const board = createSpyBoard(25)
+    expect(board.roll(betMoney, BetType.DERNIER)).toEqual(300)
+  })
+
+  it('Bet DERNIER loose', () => {
+    const board = createSpyBoard(24)
+    expect(board.roll(betMoney, BetType.DERNIER)).toEqual(moneyWhenPlayerLost)
+  })
 })
