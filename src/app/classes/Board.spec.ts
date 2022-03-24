@@ -12,6 +12,12 @@ function createSpyBoard(spin: number): Board {
 describe('Board', () => {
   const betMoney = 100
   const moneyWhenPlayerLost = 0
+  const redNumbers = [
+    1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
+  ]
+  const blackNumbers = [
+    2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35
+  ]
 
   it('Bet ONE_NUMBER win', () => {
     const board = createSpyBoard(10)
@@ -63,5 +69,58 @@ describe('Board', () => {
   it('Bet IMPAIR loose', () => {
     const board = createSpyBoard(10)
     expect(board.roll(betMoney, BetType.IMPAIR)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet RED win', () => {
+    redNumbers.forEach((redNumber) => {
+      const board = createSpyBoard(redNumber)
+      expect(board.roll(betMoney, BetType.RED)).toEqual(200)
+    })
+  })
+
+  it('Bet RED loose', () => {
+    blackNumbers.forEach((blackNumber) => {
+      const board = createSpyBoard(blackNumber)
+      expect(board.roll(betMoney, BetType.RED)).toEqual(moneyWhenPlayerLost)
+    })
+  })
+
+  it('Bet BLACK win', () => {
+    blackNumbers.forEach((blackNumber) => {
+      const board = createSpyBoard(blackNumber)
+      expect(board.roll(betMoney, BetType.BLACK)).toEqual(200)
+    })
+  })
+
+  it('Bet BLACK loose', () => {
+    redNumbers.forEach((redNumber) => {
+      const board = createSpyBoard(redNumber)
+      expect(board.roll(betMoney, BetType.BLACK)).toEqual(moneyWhenPlayerLost)
+    })
+  })
+
+  it('Bet PREMIER win', () => {
+    const board = createSpyBoard(1)
+    expect(board.roll(betMoney, BetType.PREMIER)).toEqual(300)
+  })
+
+  it('Bet PREMIER loose', () => {
+    const board = createSpyBoard(13)
+    expect(board.roll(betMoney, BetType.PREMIER)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet MOYEN win', () => {
+    const board = createSpyBoard(13)
+    expect(board.roll(betMoney, BetType.MOYEN)).toEqual(300)
+  })
+
+  it('Bet MOYEN loose with premier', () => {
+    const board = createSpyBoard(12)
+    expect(board.roll(betMoney, BetType.MOYEN)).toEqual(moneyWhenPlayerLost)
+  })
+
+  it('Bet MOYEN loose with dernier', () => {
+    const board = createSpyBoard(25)
+    expect(board.roll(betMoney, BetType.MOYEN)).toEqual(moneyWhenPlayerLost)
   })
 })

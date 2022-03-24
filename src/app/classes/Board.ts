@@ -4,6 +4,7 @@ import { RouletteWheel } from './RouletteWheel'
 export class Board {
   payMultiplierForOneNumber = 36
   payMultiplierForBinaryChoice = 2
+  payMultiplierForDozenChoice = 3
   payLostGame = 0
 
   private rouletteWheel: RouletteWheel
@@ -63,6 +64,18 @@ export class Board {
     if (betType === BetType.IMPAIR) {
       return this.calculateImpairCasePay(betMoney)
     }
+    if (betType === BetType.RED) {
+      return this.calculateRedNumberCasePay(betMoney)
+    }
+    if (betType === BetType.BLACK) {
+      return this.calculateBlackNumberCasePay(betMoney)
+    }
+    if (betType === BetType.PREMIER) {
+      return this.calculatePremierCasePay(betMoney)
+    }
+    if (betType === BetType.MOYEN) {
+      return this.calculateMoyenCasePay(betMoney)
+    }
     throw new Error('Bet type not supported')
   }
 
@@ -97,5 +110,48 @@ export class Board {
     return this.spunNumber % 2 === 1
       ? betMoney * this.payMultiplierForBinaryChoice
       : this.payLostGame
+  }
+
+  private calculateRedNumberCasePay(betMoney: number) {
+    return this.isRedNumber()
+      ? betMoney * this.payMultiplierForBinaryChoice
+      : this.payLostGame
+  }
+
+  private calculateBlackNumberCasePay(betMoney: number) {
+    return this.isBlackNumber()
+      ? betMoney * this.payMultiplierForBinaryChoice
+      : this.payLostGame
+  }
+
+  private isRedNumber() {
+    const redNumbers = [
+      1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
+    ]
+    return redNumbers.includes(this.spunNumber)
+  }
+
+  private isBlackNumber() {
+    return !this.isRedNumber()
+  }
+
+  private calculatePremierCasePay(betMoney: number) {
+    return this.isPremier()
+      ? betMoney * this.payMultiplierForDozenChoice
+      : this.payLostGame
+  }
+
+  private calculateMoyenCasePay(betMoney: number) {
+    return this.isMoyen()
+      ? betMoney * this.payMultiplierForDozenChoice
+      : this.payLostGame
+  }
+
+  private isPremier() {
+    return this.spunNumber < 13
+  }
+
+  private isMoyen() {
+    return this.spunNumber > 12 && this.spunNumber < 25
   }
 }
