@@ -4,7 +4,7 @@ import { RouletteWheel } from './RouletteWheel'
 export class Board {
   payMultiplierForOneNumber = 36
   payMultiplierForBinaryChoice = 2
-  payMultiplierForDozenChoice = 3
+  payMultiplierForTernaryChoice = 3
   payLostGame = 0
 
   private rouletteWheel: RouletteWheel
@@ -79,6 +79,15 @@ export class Board {
     if (betType === BetType.DERNIER) {
       return this.calculateDernierCasePay(betMoney)
     }
+    if (betType === BetType.TOP_COLUMN) {
+      return this.calculateTopColumnCasePay(betMoney)
+    }
+    if (betType === BetType.MIDDLE_COLUMN) {
+      return this.calculateMiddleColumnCasePay(betMoney)
+    }
+    if (betType === BetType.BOTTOM_COLUMN) {
+      return this.calculateBottomColumnCasePay(betMoney)
+    }
     throw new Error('Bet type not supported')
   }
 
@@ -145,7 +154,7 @@ export class Board {
     return this.calculatePaidMoney(
       this.isPremier(),
       betMoney,
-      this.payMultiplierForDozenChoice
+      this.payMultiplierForTernaryChoice
     )
   }
 
@@ -153,7 +162,7 @@ export class Board {
     return this.calculatePaidMoney(
       this.isMoyen(),
       betMoney,
-      this.payMultiplierForDozenChoice
+      this.payMultiplierForTernaryChoice
     )
   }
 
@@ -161,7 +170,31 @@ export class Board {
     return this.calculatePaidMoney(
       this.isDernier(),
       betMoney,
-      this.payMultiplierForDozenChoice
+      this.payMultiplierForTernaryChoice
+    )
+  }
+
+  private calculateTopColumnCasePay(betMoney: number) {
+    return this.calculatePaidMoney(
+      this.isTopColumn(),
+      betMoney,
+      this.payMultiplierForTernaryChoice
+    )
+  }
+
+  private calculateMiddleColumnCasePay(betMoney: number) {
+    return this.calculatePaidMoney(
+      this.isMiddleColumn(),
+      betMoney,
+      this.payMultiplierForTernaryChoice
+    )
+  }
+
+  private calculateBottomColumnCasePay(betMoney: number) {
+    return this.calculatePaidMoney(
+      this.isBottomColumn(),
+      betMoney,
+      this.payMultiplierForTernaryChoice
     )
   }
 
@@ -194,5 +227,17 @@ export class Board {
 
   private isMoyen() {
     return !(this.isPremier() || this.isDernier())
+  }
+
+  private isTopColumn() {
+    return this.spunNumber % 3 === 1
+  }
+
+  private isMiddleColumn() {
+    return this.spunNumber % 3 === 2
+  }
+
+  private isBottomColumn() {
+    return this.spunNumber % 3 === 0
   }
 }

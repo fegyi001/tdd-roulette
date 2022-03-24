@@ -133,4 +133,40 @@ describe('Board', () => {
     const board = createSpyBoard(24)
     expect(board.roll(betMoney, BetType.DERNIER)).toEqual(moneyWhenPlayerLost)
   })
+
+  it('Bet TOP_COLUMN win', () => {
+    const board = createSpyBoard(1)
+    expect(board.roll(betMoney, BetType.TOP_COLUMN)).toEqual(300)
+  })
+
+  it('Bet TOP_COLUMN loose', () => {
+    const board = createSpyBoard(2)
+    expect(board.roll(betMoney, BetType.TOP_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet MIDDLE_COLUMN win', () => {
+    const board = createSpyBoard(2)
+    expect(board.roll(betMoney, BetType.MIDDLE_COLUMN)).toEqual(300)
+  })
+
+  it('Bet MIDDLE_COLUMN loose', () => {
+    const board = createSpyBoard(1)
+    expect(board.roll(betMoney, BetType.MIDDLE_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet BOTTOM_COLUMN win', () => {
+    const board = createSpyBoard(3)
+    expect(board.roll(betMoney, BetType.BOTTOM_COLUMN)).toEqual(300)
+  })
+
+  it('Bet BOTTOM_COLUMN loose', () => {
+    const board = createSpyBoard(2)
+    expect(board.roll(betMoney, BetType.BOTTOM_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
 })
