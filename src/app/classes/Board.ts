@@ -5,6 +5,7 @@ export class Board {
   payMultiplierForOneNumber = 36
   payMultiplierForBinaryChoice = 2
   payMultiplierForTernaryChoice = 3
+  payMultiplierForDoubleChoice = 18
   payLostGame = 0
 
   private rouletteWheel: RouletteWheel
@@ -96,6 +97,9 @@ export class Board {
     }
     if (betType === BetType.THREE_NUMBERS && betNumber) {
       return this.calculateThreeNumbersCasePay(betMoney, betNumber)
+    }
+    if (betType === BetType.TWO_NUMBERS_HORIZONTAL && betNumber) {
+      return this.calculateTwoNumbersHorizontalCasePay(betMoney, betNumber)
     }
     throw new Error('Bet type not supported')
   }
@@ -208,11 +212,13 @@ export class Board {
   }
 
   private calculateSixNumbersCasePay(betMoney: number, betNumber: number) {
-    const numbersArray = this.createFixedLengthArrayFromStart(6, betNumber)
     return this.calculatePaidMoney(
-      this.isTopColumn(betNumber) && numbersArray.includes(this.spunNumber),
+      this.createFixedLengthArrayFromStart(6, betNumber).includes(
+        this.spunNumber
+      ),
       betMoney,
-      6
+      6,
+      !this.isTopColumn(betNumber)
     )
   }
 
@@ -227,11 +233,26 @@ export class Board {
   }
 
   private calculateThreeNumbersCasePay(betMoney: number, betNumber: number) {
-    const numbersArray = this.createFixedLengthArrayFromStart(3, betNumber)
     return this.calculatePaidMoney(
-      numbersArray.includes(this.spunNumber),
+      this.createFixedLengthArrayFromStart(3, betNumber).includes(
+        this.spunNumber
+      ),
       betMoney,
       12
+    )
+  }
+
+  private calculateTwoNumbersHorizontalCasePay(
+    betMoney: number,
+    betNumber: number
+  ) {
+    return this.calculatePaidMoney(
+      this.createFixedLengthArrayFromStart(2, betNumber).includes(
+        this.spunNumber
+      ),
+      betMoney,
+      this.payMultiplierForDoubleChoice,
+      this.isBottomColumn(betNumber)
     )
   }
 
@@ -242,8 +263,12 @@ export class Board {
   private calculatePaidMoney(
     isWin: boolean,
     betMoney: number,
-    multiplier: number
+    multiplier: number,
+    exceptionCase = false
   ) {
+    if (exceptionCase) {
+      throw new Error(`Bet number is not allowed for this game.`)
+    }
     return isWin ? betMoney * multiplier : this.payLostGame
   }
 

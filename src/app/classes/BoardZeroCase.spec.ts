@@ -96,8 +96,14 @@ describe('Board', () => {
     )
   })
 
-  it('Bet TWO_NUMBERED loose', () => {
-    expect(board.roll(betMoney, BetType.TWO_NUMBERS)).toEqual(
+  it('Bet TWO_NUMBERED_HORIZONTAL loose', () => {
+    expect(board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet TWO_NUMBERS_VERTICAL loose', () => {
+    expect(board.roll(betMoney, BetType.TWO_NUMBERS_VERTICAL)).toEqual(
       moneyWhenPlayerLost
     )
   })

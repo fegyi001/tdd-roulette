@@ -182,6 +182,13 @@ describe('Board', () => {
     )
   })
 
+  it('Bet SIX_NUMBERS exception', () => {
+    const board = createSpyBoard(7)
+    expect(() => {
+      board.roll(betMoney, BetType.SIX_NUMBERS, 2)
+    }).toThrowError(`Bet number is not allowed for this game.`)
+  })
+
   it('Bet FOUR_NUMBERS win', () => {
     const board = createSpyBoard(5)
     expect(board.roll(betMoney, BetType.FOUR_NUMBERS, 1)).toEqual(900)
@@ -204,5 +211,26 @@ describe('Board', () => {
     expect(board.roll(betMoney, BetType.THREE_NUMBERS, 1)).toEqual(
       moneyWhenPlayerLost
     )
+  })
+
+  it('Bet TWO_NUMBERS_HORIZONTAL win', () => {
+    const board = createSpyBoard(18)
+    expect(board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL, 17)).toEqual(
+      1800
+    )
+  })
+
+  it('Bet TWO_NUMBERS_HORIZONTAL loose', () => {
+    const board = createSpyBoard(16)
+    expect(board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL, 17)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet TWO_NUMBERS_HORIZONTAL exception', () => {
+    const board = createSpyBoard(16)
+    expect(() => {
+      board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL, 18)
+    }).toThrowError(`Bet number is not allowed for this game.`)
   })
 })
