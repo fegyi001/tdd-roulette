@@ -170,26 +170,38 @@ describe('Board', () => {
     )
   })
 
-  it('Bet SIX_NUMBERED win', () => {
+  it('Bet SIX_NUMBERS win', () => {
     const board = createSpyBoard(6)
     expect(board.roll(betMoney, BetType.SIX_NUMBERS, 1)).toEqual(600)
   })
 
-  it('Bet SIX_NUMBERED loose', () => {
+  it('Bet SIX_NUMBERS loose', () => {
     const board = createSpyBoard(7)
     expect(board.roll(betMoney, BetType.SIX_NUMBERS, 1)).toEqual(
       moneyWhenPlayerLost
     )
   })
 
-  it('Bet FOUR_NUMBERED win', () => {
+  it('Bet FOUR_NUMBERS win', () => {
     const board = createSpyBoard(5)
     expect(board.roll(betMoney, BetType.FOUR_NUMBERS, 1)).toEqual(900)
   })
 
-  it('Bet FOUR_NUMBERED loose', () => {
+  it('Bet FOUR_NUMBERS loose', () => {
     const board = createSpyBoard(3)
     expect(board.roll(betMoney, BetType.FOUR_NUMBERS, 1)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet THREE_NUMBERS win', () => {
+    const board = createSpyBoard(3)
+    expect(board.roll(betMoney, BetType.THREE_NUMBERS, 1)).toEqual(1200)
+  })
+
+  it('Bet THREE_NUMBERS loose', () => {
+    const board = createSpyBoard(4)
+    expect(board.roll(betMoney, BetType.THREE_NUMBERS, 1)).toEqual(
       moneyWhenPlayerLost
     )
   })

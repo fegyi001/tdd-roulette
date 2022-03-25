@@ -94,6 +94,9 @@ export class Board {
     if (betType === BetType.FOUR_NUMBERS && betNumber) {
       return this.calculateFourNumbersCasePay(betMoney, betNumber)
     }
+    if (betType === BetType.THREE_NUMBERS && betNumber) {
+      return this.calculateThreeNumbersCasePay(betMoney, betNumber)
+    }
     throw new Error('Bet type not supported')
   }
 
@@ -220,6 +223,15 @@ export class Board {
       numbersArray.includes(this.spunNumber),
       betMoney,
       9
+    )
+  }
+
+  private calculateThreeNumbersCasePay(betMoney: number, betNumber: number) {
+    const numbersArray = this.createFixedLengthArrayFromStart(3, betNumber)
+    return this.calculatePaidMoney(
+      numbersArray.includes(this.spunNumber),
+      betMoney,
+      12
     )
   }
 
