@@ -7,6 +7,9 @@ export class Board {
   payMultiplierForTernaryChoice = 3
   payMultiplierForDoubleChoice = 18
   payLostGame = 0
+  redNumbers = [
+    1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
+  ]
 
   private rouletteWheel: RouletteWheel
   private spunNumber = -1
@@ -286,10 +289,7 @@ export class Board {
   }
 
   private isRedNumber() {
-    const redNumbers = [
-      1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
-    ]
-    return redNumbers.includes(this.spunNumber)
+    return this.redNumbers.includes(this.spunNumber)
   }
 
   private isBlackNumber() {
