@@ -233,4 +233,23 @@ describe('Board', () => {
       board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL, 18)
     }).toThrowError(`Bet number is not allowed for this game.`)
   })
+
+  it('Bet TWO_NUMBERS_VERTICAL win', () => {
+    const board = createSpyBoard(19)
+    expect(board.roll(betMoney, BetType.TWO_NUMBERS_VERTICAL, 16)).toEqual(1800)
+  })
+
+  it('Bet TWO_NUMBERS_VERTICAL loose', () => {
+    const board = createSpyBoard(17)
+    expect(board.roll(betMoney, BetType.TWO_NUMBERS_VERTICAL, 16)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
+
+  it('Bet TWO_NUMBERS_VERTICAL exception', () => {
+    const board = createSpyBoard(16)
+    expect(() => {
+      board.roll(betMoney, BetType.TWO_NUMBERS_VERTICAL, 34)
+    }).toThrowError(`Bet number is not allowed for this game.`)
+  })
 })

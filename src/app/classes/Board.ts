@@ -101,6 +101,9 @@ export class Board {
     if (betType === BetType.TWO_NUMBERS_HORIZONTAL && betNumber) {
       return this.calculateTwoNumbersHorizontalCasePay(betMoney, betNumber)
     }
+    if (betType === BetType.TWO_NUMBERS_VERTICAL && betNumber) {
+      return this.calculateTwoNumbersVerticalCasePay(betMoney, betNumber)
+    }
     throw new Error('Bet type not supported')
   }
 
@@ -212,10 +215,9 @@ export class Board {
   }
 
   private calculateSixNumbersCasePay(betMoney: number, betNumber: number) {
+    const winCells = this.createFixedLengthArrayFromStart(6, betNumber)
     return this.calculatePaidMoney(
-      this.createFixedLengthArrayFromStart(6, betNumber).includes(
-        this.spunNumber
-      ),
+      winCells.includes(this.spunNumber),
       betMoney,
       6,
       !this.isTopColumn(betNumber)
@@ -223,20 +225,19 @@ export class Board {
   }
 
   private calculateFourNumbersCasePay(betMoney: number, betNumber: number) {
-    const numbersArray = this.createFixedLengthArrayFromStart(5, betNumber)
-    numbersArray.splice(2, 1)
+    const winCells = this.createFixedLengthArrayFromStart(5, betNumber)
+    winCells.splice(2, 1)
     return this.calculatePaidMoney(
-      numbersArray.includes(this.spunNumber),
+      winCells.includes(this.spunNumber),
       betMoney,
       9
     )
   }
 
   private calculateThreeNumbersCasePay(betMoney: number, betNumber: number) {
+    const winCells = this.createFixedLengthArrayFromStart(3, betNumber)
     return this.calculatePaidMoney(
-      this.createFixedLengthArrayFromStart(3, betNumber).includes(
-        this.spunNumber
-      ),
+      winCells.includes(this.spunNumber),
       betMoney,
       12
     )
@@ -246,13 +247,25 @@ export class Board {
     betMoney: number,
     betNumber: number
   ) {
+    const winCells = this.createFixedLengthArrayFromStart(2, betNumber)
     return this.calculatePaidMoney(
-      this.createFixedLengthArrayFromStart(2, betNumber).includes(
-        this.spunNumber
-      ),
+      winCells.includes(this.spunNumber),
       betMoney,
       this.payMultiplierForDoubleChoice,
       this.isBottomColumn(betNumber)
+    )
+  }
+
+  private calculateTwoNumbersVerticalCasePay(
+    betMoney: number,
+    betNumber: number
+  ) {
+    const winCells = [betNumber, betNumber + 3]
+    return this.calculatePaidMoney(
+      winCells.includes(this.spunNumber),
+      betMoney,
+      this.payMultiplierForDoubleChoice,
+      this.isLastRow(betNumber)
     )
   }
 
@@ -305,5 +318,9 @@ export class Board {
 
   private isBottomColumn(cell: number = this.spunNumber) {
     return cell % 3 === 0
+  }
+
+  private isLastRow(cell: number) {
+    return cell > 33
   }
 }
