@@ -91,6 +91,9 @@ export class Board {
     if (betType === BetType.SIX_NUMBERS && betNumber) {
       return this.calculateSixNumbersCasePay(betMoney, betNumber)
     }
+    if (betType === BetType.FOUR_NUMBERS && betNumber) {
+      return this.calculateFourNumbersCasePay(betMoney, betNumber)
+    }
     throw new Error('Bet type not supported')
   }
 
@@ -207,6 +210,16 @@ export class Board {
       this.isTopColumn(betNumber) && numbersArray.includes(this.spunNumber),
       betMoney,
       6
+    )
+  }
+
+  private calculateFourNumbersCasePay(betMoney: number, betNumber: number) {
+    const numbersArray = this.createFixedLengthArrayFromStart(5, betNumber)
+    numbersArray.splice(2, 1)
+    return this.calculatePaidMoney(
+      numbersArray.includes(this.spunNumber),
+      betMoney,
+      9
     )
   }
 
