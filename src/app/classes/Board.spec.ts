@@ -169,4 +169,16 @@ describe('Board', () => {
       moneyWhenPlayerLost
     )
   })
+
+  it('Bet SIX_NUMBERED win', () => {
+    const board = createSpyBoard(6)
+    expect(board.roll(betMoney, BetType.SIX_NUMBERS, 1)).toEqual(600)
+  })
+
+  it('Bet SIX_NUMBERED loose', () => {
+    const board = createSpyBoard(7)
+    expect(board.roll(betMoney, BetType.SIX_NUMBERS, 1)).toEqual(
+      moneyWhenPlayerLost
+    )
+  })
 })

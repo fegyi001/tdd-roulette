@@ -26,7 +26,7 @@ export class Board {
   private calculatePay(
     betType: BetType,
     betMoney: number,
-    betNumber?: number
+    betNumber: number | undefined
   ): number {
     return this.spunNumber === 0
       ? this.calculateZeroCasePay(betType, betMoney, betNumber)
@@ -36,7 +36,7 @@ export class Board {
   private calculateZeroCasePay(
     betType: BetType,
     betMoney: number,
-    betNumber?: number
+    betNumber: number | undefined
   ): number {
     if (betType === BetType.ONE_NUMBER) {
       return this.calculateOneNumberCasePay(betNumber, betMoney)
@@ -47,9 +47,9 @@ export class Board {
   private calculateNormalCasePay(
     betType: BetType,
     betMoney: number,
-    betNumber?: number
+    betNumber: number | undefined
   ): number {
-    if (betType === BetType.ONE_NUMBER) {
+    if (betType === BetType.ONE_NUMBER && betNumber) {
       return this.calculateOneNumberCasePay(betNumber, betMoney)
     }
     if (betType === BetType.PASSE) {
@@ -87,6 +87,9 @@ export class Board {
     }
     if (betType === BetType.BOTTOM_COLUMN) {
       return this.calculateBottomColumnCasePay(betMoney)
+    }
+    if (betType === BetType.SIX_NUMBERS && betNumber) {
+      return this.calculateSixNumbersCasePay(betMoney, betNumber)
     }
     throw new Error('Bet type not supported')
   }
@@ -198,6 +201,19 @@ export class Board {
     )
   }
 
+  private calculateSixNumbersCasePay(betMoney: number, betNumber: number) {
+    const numbersArray = this.createFixedLengthArrayFromStart(6, betNumber)
+    return this.calculatePaidMoney(
+      this.isTopColumn(betNumber) && numbersArray.includes(this.spunNumber),
+      betMoney,
+      6
+    )
+  }
+
+  private createFixedLengthArrayFromStart(length: number, start: number) {
+    return Array.from({ length }, (_, i) => i + start)
+  }
+
   private calculatePaidMoney(
     isWin: boolean,
     betMoney: number,
@@ -229,15 +245,15 @@ export class Board {
     return !(this.isPremier() || this.isDernier())
   }
 
-  private isTopColumn() {
-    return this.spunNumber % 3 === 1
+  private isTopColumn(cell: number = this.spunNumber) {
+    return cell % 3 === 1
   }
 
-  private isMiddleColumn() {
-    return this.spunNumber % 3 === 2
+  private isMiddleColumn(cell: number = this.spunNumber) {
+    return cell % 3 === 2
   }
 
-  private isBottomColumn() {
-    return this.spunNumber % 3 === 0
+  private isBottomColumn(cell: number = this.spunNumber) {
+    return cell % 3 === 0
   }
 }
