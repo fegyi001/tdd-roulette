@@ -1,5 +1,19 @@
+import { RouletteDTO } from '../models/roulette-dto'
 import { RouletteDTOValidator } from './RouletteDTOValidator'
-import { EmptyRouletteValidationError } from './RouletteValidationError'
+import {
+  EmptyRouletteValidationError,
+  MissingPropertyRouletteValidationError
+} from './RouletteValidationError'
+
+function expectMissingPropertyException(
+  dto: RouletteDTO,
+  propertyName: string
+) {
+  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
+    MissingPropertyRouletteValidationError
+  )
+  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(propertyName)
+}
 
 describe('RouletteDTOValidator', () => {
   // 34
@@ -26,6 +40,26 @@ describe('RouletteDTOValidator', () => {
     expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
       EmptyRouletteValidationError
     )
+  })
+
+  it('No boardId', () => {
+    const dto: any = { invalidProperty: null }
+    expectMissingPropertyException(dto, 'boardId')
+  })
+
+  it('No personId', () => {
+    const dto: any = { boardId: null }
+    expectMissingPropertyException(dto, 'personId')
+  })
+
+  it('No betMoney', () => {
+    const dto: any = { boardId: null, personId: null }
+    expectMissingPropertyException(dto, 'betMoney')
+  })
+
+  it('No betPlace', () => {
+    const dto: any = { boardId: null, personId: null, betMoney: null }
+    expectMissingPropertyException(dto, 'betPlace')
   })
 
   it('Temporary test', () => {

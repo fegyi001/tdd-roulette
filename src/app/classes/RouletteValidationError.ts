@@ -13,3 +13,13 @@ export class EmptyRouletteValidationError extends RouletteValidationError {
     Object.setPrototypeOf(this, EmptyRouletteValidationError.prototype)
   }
 }
+
+export class MissingPropertyRouletteValidationError extends RouletteValidationError {
+  constructor(message: string) {
+    super(message)
+    Object.setPrototypeOf(
+      this,
+      MissingPropertyRouletteValidationError.prototype
+    )
+  }
+}
