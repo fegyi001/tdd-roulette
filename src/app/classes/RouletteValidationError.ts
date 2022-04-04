@@ -23,3 +23,9 @@ export class MissingPropertyRouletteValidationError extends RouletteValidationEr
     )
   }
 }
+export class NotValidIdRouletteValidationError extends RouletteValidationError {
+  constructor(message: string) {
+    super(message)
+    Object.setPrototypeOf(this, NotValidIdRouletteValidationError.prototype)
+  }
+}

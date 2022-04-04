@@ -2,18 +2,9 @@ import { RouletteDTO } from '../models/roulette-dto'
 import { RouletteDTOValidator } from './RouletteDTOValidator'
 import {
   EmptyRouletteValidationError,
-  MissingPropertyRouletteValidationError
+  MissingPropertyRouletteValidationError,
+  NotValidIdRouletteValidationError
 } from './RouletteValidationError'
-
-function expectMissingPropertyException(
-  dto: RouletteDTO,
-  propertyName: string
-) {
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
-    MissingPropertyRouletteValidationError
-  )
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(propertyName)
-}
 
 describe('RouletteDTOValidator', () => {
   // 34
@@ -34,6 +25,21 @@ describe('RouletteDTOValidator', () => {
   // pa
   // ma
   // pai-im
+
+  let validDTO: any
+
+  beforeEach(() => {
+    validDTO = {
+      boardId: 123,
+      personId: 345,
+      betMoney: 100,
+      betPlace: '1'
+    }
+  })
+
+  it('Positive case', () => {
+    expect(() => RouletteDTOValidator.validate(validDTO)).not.toThrowError()
+  })
 
   it('Empty DTO', () => {
     const dto: any = {}
@@ -62,13 +68,59 @@ describe('RouletteDTOValidator', () => {
     expectMissingPropertyException(dto, 'betPlace')
   })
 
-  it('Temporary test', () => {
-    const dto: any = {
-      boardId: 123,
-      personId: 345,
-      betMoney: 12,
-      betPlace: '1'
+  it('Null boardId', () => {
+    const dto = { ...validDTO, boardId: null }
+    expectInvalidIdException(dto, 'boardId')
+  })
+
+  it('Not number boardId', () => {
+    const dto = { ...validDTO, boardId: 'invalidBoardId' }
+    expectInvalidIdException(dto, 'boardId')
+  })
+
+  it('Too big number boardId', () => {
+    const dto = {
+      ...validDTO,
+      // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+      boardId: 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     }
-    expect(() => RouletteDTOValidator.validate(dto)).not.toThrowError()
+    expectInvalidIdException(dto, 'boardId')
+  })
+
+  it('Too big number boardId', () => {
+    const dto = {
+      ...validDTO,
+      boardId:
+        // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+        -1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    }
+    expectInvalidIdException(dto, 'boardId')
+  })
+
+  it('Negative boardId', () => {
+    const dto = { ...validDTO, boardId: -1 }
+    expectInvalidIdException(dto, 'boardId')
+  })
+
+  it('Zero boardId', () => {
+    const dto = { ...validDTO, boardId: 0 }
+    expectInvalidIdException(dto, 'boardId')
   })
 })
+
+function expectMissingPropertyException(
+  dto: RouletteDTO,
+  propertyName: string
+) {
+  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
+    MissingPropertyRouletteValidationError
+  )
+  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(propertyName)
+}
+
+function expectInvalidIdException(dto: RouletteDTO, idName: string) {
+  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
+    NotValidIdRouletteValidationError
+  )
+  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(idName)
+}
