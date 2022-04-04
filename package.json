@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:headless": "ng test --browsers=ChromeHeadless",
+    "test:mutation": "stryker run",
     "lint": "ng lint",
     "eslint": "eslint",
     "prettier": "prettier",
