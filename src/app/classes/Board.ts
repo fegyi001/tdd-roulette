@@ -2,12 +2,14 @@ import { BetType } from '../enums/BetType'
 import { RouletteWheel } from './RouletteWheel'
 
 export class Board {
-  payMultiplierForOneNumber = 36
+  payLostGame = 0
   payMultiplierForBinaryChoice = 2
   payMultiplierForTernaryChoice = 3
   payMultiplierForSixNumbers = 6
-  payMultiplierForDoubleChoice = 18
-  payLostGame = 0
+  payMultiplierForFourNumbers = 9
+  payMultiplierForThreeNumbers = 12
+  payMultiplierForTwoNumbers = 18
+  payMultiplierForOneNumber = 36
   redNumbers = [
     1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
   ]
@@ -303,7 +305,7 @@ export class Board {
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
-      9
+      this.payMultiplierForFourNumbers
     )
   }
 
@@ -315,7 +317,7 @@ export class Board {
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
-      12
+      this.payMultiplierForThreeNumbers
     )
   }
 
@@ -327,7 +329,7 @@ export class Board {
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
-      this.payMultiplierForDoubleChoice
+      this.payMultiplierForTwoNumbers
     )
   }
 
@@ -339,7 +341,7 @@ export class Board {
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
-      this.payMultiplierForDoubleChoice
+      this.payMultiplierForTwoNumbers
     )
   }
 

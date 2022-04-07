@@ -8,7 +8,9 @@ module.exports = {
     'src/**/*.ts',
     '!src/**/*.spec.ts',
     '!src/test.ts',
-    '!src/environments/*.ts'
+    '!src/environments/*.ts',
+    '!src/main.ts',
+    '!src/app/app-routing.module.ts'
   ],
   testRunner: 'karma',
   karma: {

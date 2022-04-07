@@ -230,7 +230,7 @@ describe('Board', () => {
       board.roll(betMoney, BetType.FOUR_NUMBERS)
     }).toThrowError(betNumberNotAllowedExceptionMessage)
     expect(() => {
-      board.roll(betMoney, BetType.FOUR_NUMBERS, 3)
+      board.roll(betMoney, BetType.FOUR_NUMBERS, 33)
     }).toThrowError(betNumberNotAllowedExceptionMessage)
     expect(() => {
       board.roll(betMoney, BetType.FOUR_NUMBERS, 34)
