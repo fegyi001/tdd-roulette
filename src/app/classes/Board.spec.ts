@@ -18,6 +18,7 @@ describe('Board', () => {
   const blackNumbers = [
     2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35
   ]
+  const betNumberNotAllowedExceptionMessage = `Bet number is not allowed for this game.`
 
   it('Bet ONE_NUMBER win', () => {
     const board = createSpyBoard(10)
@@ -114,14 +115,15 @@ describe('Board', () => {
     expect(board.roll(betMoney, BetType.MOYEN)).toEqual(300)
   })
 
-  it('Bet MOYEN loose with premier', () => {
-    const board = createSpyBoard(12)
-    expect(board.roll(betMoney, BetType.MOYEN)).toEqual(moneyWhenPlayerLost)
-  })
-
-  it('Bet MOYEN loose with dernier', () => {
-    const board = createSpyBoard(25)
-    expect(board.roll(betMoney, BetType.MOYEN)).toEqual(moneyWhenPlayerLost)
+  it('Bet MOYEN loose', () => {
+    const boardPremier = createSpyBoard(12)
+    expect(boardPremier.roll(betMoney, BetType.MOYEN)).toEqual(
+      moneyWhenPlayerLost
+    )
+    const boardMoyen = createSpyBoard(25)
+    expect(boardMoyen.roll(betMoney, BetType.MOYEN)).toEqual(
+      moneyWhenPlayerLost
+    )
   })
 
   it('Bet DERNIER win', () => {
@@ -140,7 +142,11 @@ describe('Board', () => {
   })
 
   it('Bet TOP_COLUMN loose', () => {
-    const board = createSpyBoard(2)
+    let board = createSpyBoard(2)
+    expect(board.roll(betMoney, BetType.TOP_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+    board = createSpyBoard(3)
     expect(board.roll(betMoney, BetType.TOP_COLUMN)).toEqual(
       moneyWhenPlayerLost
     )
@@ -152,7 +158,11 @@ describe('Board', () => {
   })
 
   it('Bet MIDDLE_COLUMN loose', () => {
-    const board = createSpyBoard(1)
+    let board = createSpyBoard(1)
+    expect(board.roll(betMoney, BetType.MIDDLE_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+    board = createSpyBoard(3)
     expect(board.roll(betMoney, BetType.MIDDLE_COLUMN)).toEqual(
       moneyWhenPlayerLost
     )
@@ -164,7 +174,11 @@ describe('Board', () => {
   })
 
   it('Bet BOTTOM_COLUMN loose', () => {
-    const board = createSpyBoard(2)
+    let board = createSpyBoard(1)
+    expect(board.roll(betMoney, BetType.BOTTOM_COLUMN)).toEqual(
+      moneyWhenPlayerLost
+    )
+    board = createSpyBoard(2)
     expect(board.roll(betMoney, BetType.BOTTOM_COLUMN)).toEqual(
       moneyWhenPlayerLost
     )
@@ -186,7 +200,10 @@ describe('Board', () => {
     const board = createSpyBoard(7)
     expect(() => {
       board.roll(betMoney, BetType.SIX_NUMBERS, 2)
-    }).toThrowError(`Bet number is not allowed for this game.`)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
+    expect(() => {
+      board.roll(betMoney, BetType.SIX_NUMBERS, 3)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
   })
 
   it('Bet FOUR_NUMBERS win', () => {
@@ -231,7 +248,7 @@ describe('Board', () => {
     const board = createSpyBoard(16)
     expect(() => {
       board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL, 18)
-    }).toThrowError(`Bet number is not allowed for this game.`)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
   })
 
   it('Bet TWO_NUMBERS_VERTICAL win', () => {
@@ -250,6 +267,6 @@ describe('Board', () => {
     const board = createSpyBoard(16)
     expect(() => {
       board.roll(betMoney, BetType.TWO_NUMBERS_VERTICAL, 34)
-    }).toThrowError(`Bet number is not allowed for this game.`)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
   })
 })
