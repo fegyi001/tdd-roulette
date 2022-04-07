@@ -52,6 +52,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-the-step-down-rule": "^0.0.2",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^7.0.4",
     "jasmine-core": "~4.0.0",

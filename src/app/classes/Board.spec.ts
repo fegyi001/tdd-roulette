@@ -2,13 +2,6 @@ import { BetType } from '../enums/BetType'
 import { Board } from './Board'
 import { RouletteWheel } from './RouletteWheel'
 
-function createSpyBoard(spin: number): Board {
-  const wheelSpy: RouletteWheel = jasmine.createSpyObj('RouletteWheel', {
-    spin
-  })
-  return new Board(wheelSpy)
-}
-
 describe('Board', () => {
   const betMoney = 100
   const moneyWhenPlayerLost = 0
@@ -283,3 +276,10 @@ describe('Board', () => {
     }).toThrowError(betNumberNotAllowedExceptionMessage)
   })
 })
+
+function createSpyBoard(spin: number): Board {
+  const wheelSpy: RouletteWheel = jasmine.createSpyObj('RouletteWheel', {
+    spin
+  })
+  return new Board(wheelSpy)
+}

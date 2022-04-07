@@ -4058,6 +4058,11 @@ eslint-plugin-simple-import-sort@^7.0.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-7.0.0.tgz#a1dad262f46d2184a90095a60c66fef74727f0f8"
   integrity sha512-U3vEDB5zhYPNfxT5TYR7u01dboFZp+HNpnGhkDB2g/2E4wZ/g1Q9Ton8UwCLfRV9yAKyYqDh62oHOamvkFxsvw==
 
+eslint-plugin-the-step-down-rule@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-the-step-down-rule/-/eslint-plugin-the-step-down-rule-0.0.2.tgz#5fdc9dd6aea42eafec3cc6cc1448a431a32733e2"
+  integrity sha512-3n92ChXNlLRviYQHeCRTsfZ4h4TKg3QSt281867ZeuLC8k94XeTUWGYFw/xAvMLlxJfSyX5rB4cLukwQM/znCg==
+
 eslint-plugin-unused-imports@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-2.0.0.tgz#d8db8c4d0cfa0637a8b51ce3fd7d1b6bc3f08520"
