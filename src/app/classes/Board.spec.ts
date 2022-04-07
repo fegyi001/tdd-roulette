@@ -18,7 +18,7 @@ describe('Board', () => {
   const blackNumbers = [
     2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35
   ]
-  const betNumberNotAllowedExceptionMessage = `Bet number is not allowed for this game.`
+  const betNumberNotAllowedExceptionMessage = `Bet number is invalid`
 
   it('Bet ONE_NUMBER win', () => {
     const board = createSpyBoard(10)
@@ -204,6 +204,9 @@ describe('Board', () => {
     expect(() => {
       board.roll(betMoney, BetType.SIX_NUMBERS, 3)
     }).toThrowError(betNumberNotAllowedExceptionMessage)
+    expect(() => {
+      board.roll(betMoney, BetType.SIX_NUMBERS, 34)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
   })
 
   it('Bet FOUR_NUMBERS win', () => {
@@ -216,6 +219,16 @@ describe('Board', () => {
     expect(board.roll(betMoney, BetType.FOUR_NUMBERS, 1)).toEqual(
       moneyWhenPlayerLost
     )
+  })
+
+  it('Bet FOUR_NUMBERS_HORIZONTAL exception', () => {
+    const board = createSpyBoard(16)
+    expect(() => {
+      board.roll(betMoney, BetType.FOUR_NUMBERS, 3)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
+    expect(() => {
+      board.roll(betMoney, BetType.FOUR_NUMBERS, 34)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
   })
 
   it('Bet THREE_NUMBERS win', () => {

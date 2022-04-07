@@ -53,6 +53,9 @@ export class Board {
     betMoney: number,
     betNumber: number | undefined
   ): number {
+    if (this.isBetNumberInvalid(betNumber, betType)) {
+      throw new Error('Bet number is invalid')
+    }
     if (betType === BetType.ONE_NUMBER && betNumber) {
       return this.calculateOneNumberCasePay(betNumber, betMoney)
     }
@@ -108,6 +111,51 @@ export class Board {
       return this.calculateTwoNumbersVerticalCasePay(betMoney, betNumber)
     }
     throw new Error('Bet type not supported')
+  }
+
+  private isBetNumberInvalid(betNumber: number | undefined, betType: BetType) {
+    if (this.isNumberNotOnBoard(betNumber)) {
+      return true
+    }
+    if (betType === BetType.SIX_NUMBERS) {
+      return this.isSixNumbersBetNumberValid(betNumber)
+    }
+    if (betType === BetType.FOUR_NUMBERS) {
+      return this.isFourNumbersBetNumberValid(betNumber)
+    }
+    if (betType === BetType.TWO_NUMBERS_HORIZONTAL) {
+      return this.isTwoNumbersHorizontalBetNumberValid(betNumber)
+    }
+    if (betType === BetType.TWO_NUMBERS_VERTICAL) {
+      return this.isTwoNumbersVerticalBetNumberValid(betNumber)
+    }
+    return false
+  }
+
+  private isNumberNotOnBoard(betNumber: number | undefined) {
+    return betNumber !== undefined && (betNumber < 0 || betNumber > 36)
+  }
+
+  private isSixNumbersBetNumberValid(betNumber: number | undefined) {
+    return (
+      betNumber === undefined || betNumber > 33 || !this.isTopColumn(betNumber)
+    )
+  }
+
+  private isFourNumbersBetNumberValid(betNumber: number | undefined) {
+    return (
+      betNumber === undefined ||
+      this.isBottomColumn(betNumber) ||
+      this.isLastRow(betNumber)
+    )
+  }
+
+  private isTwoNumbersHorizontalBetNumberValid(betNumber: number | undefined) {
+    return betNumber === undefined || this.isBottomColumn(betNumber)
+  }
+
+  private isTwoNumbersVerticalBetNumberValid(betNumber: number | undefined) {
+    return betNumber === undefined || this.isLastRow(betNumber)
   }
 
   private calculateOneNumberCasePay(
@@ -222,8 +270,7 @@ export class Board {
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
-      6,
-      !this.isTopColumn(betNumber)
+      6
     )
   }
 
@@ -254,8 +301,7 @@ export class Board {
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
-      this.payMultiplierForDoubleChoice,
-      this.isBottomColumn(betNumber)
+      this.payMultiplierForDoubleChoice
     )
   }
 
@@ -267,8 +313,7 @@ export class Board {
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
-      this.payMultiplierForDoubleChoice,
-      this.isLastRow(betNumber)
+      this.payMultiplierForDoubleChoice
     )
   }
 
@@ -279,12 +324,8 @@ export class Board {
   private calculatePaidMoney(
     isWin: boolean,
     betMoney: number,
-    multiplier: number,
-    exceptionCase = false
+    multiplier: number
   ) {
-    if (exceptionCase) {
-      throw new Error(`Bet number is not allowed for this game.`)
-    }
     return isWin ? betMoney * multiplier : this.payLostGame
   }
 

@@ -78,25 +78,25 @@ describe('Board', () => {
     )
   })
 
-  it('Bet SIX_NUMBERED loose', () => {
+  it('Bet SIX_NUMBERS loose', () => {
     expect(board.roll(betMoney, BetType.SIX_NUMBERS)).toEqual(
       moneyWhenPlayerLost
     )
   })
 
-  it('Bet FOUR_NUMBERED loose', () => {
+  it('Bet FOUR_NUMBERS loose', () => {
     expect(board.roll(betMoney, BetType.FOUR_NUMBERS)).toEqual(
       moneyWhenPlayerLost
     )
   })
 
-  it('Bet THREE_NUMBERED loose', () => {
+  it('Bet THREE_NUMBERS loose', () => {
     expect(board.roll(betMoney, BetType.THREE_NUMBERS)).toEqual(
       moneyWhenPlayerLost
     )
   })
 
-  it('Bet TWO_NUMBERED_HORIZONTAL loose', () => {
+  it('Bet TWO_NUMBERS_HORIZONTAL loose', () => {
     expect(board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL)).toEqual(
       moneyWhenPlayerLost
     )
