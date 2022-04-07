@@ -37,3 +37,10 @@ export class NotValidBetMoneyError extends RouletteValidationError {
     Object.setPrototypeOf(this, NotValidBetMoneyError.prototype)
   }
 }
+
+export class NotValidBetPlaceError extends RouletteValidationError {
+  constructor(message: string) {
+    super(message)
+    Object.setPrototypeOf(this, NotValidBetPlaceError.prototype)
+  }
+}

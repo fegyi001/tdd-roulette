@@ -3,6 +3,7 @@ import {
   EmptyRouletteValidationError,
   MissingPropertyRouletteValidationError,
   NotValidBetMoneyError,
+  NotValidBetPlaceError,
   NotValidIdRouletteValidationError
 } from './RouletteValidationError'
 
@@ -15,6 +16,7 @@ export class RouletteDTOValidator {
     this.boardIdValidation()
     this.personIdValidation()
     this.betMoneyValidation()
+    this.betPlaceValidation()
   }
 
   private static propertiesExist() {
@@ -45,8 +47,14 @@ export class RouletteDTOValidator {
     }
   }
 
+  private static betPlaceValidation() {
+    if (this.isInvalidBetPlace()) {
+      throw new NotValidBetPlaceError('')
+    }
+  }
+
   private static betMoneyValidation() {
-    if (this.isInvalidBetMoney(this.dto.betMoney)) {
+    if (this.isInvalidBetMoney()) {
       throw new NotValidBetMoneyError('')
     }
   }
@@ -59,7 +67,15 @@ export class RouletteDTOValidator {
     return id === null || isNaN(id) || id === Infinity || id === -Infinity
   }
 
-  private static isInvalidBetMoney(betMoney: number) {
-    return this.isInvalidNumber(betMoney) || betMoney <= 0
+  private static isInvalidBetMoney() {
+    return this.isInvalidNumber(this.dto.betMoney) || this.dto.betMoney <= 0
+  }
+
+  private static isInvalidBetPlace() {
+    if (this.dto.betPlace === null) {
+      return true
+    }
+    const betPlace = this.dto.betPlace.trim()
+    return betPlace === '' || betPlace.includes(' ')
   }
 }

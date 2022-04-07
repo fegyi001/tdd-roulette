@@ -4,6 +4,7 @@ import {
   EmptyRouletteValidationError,
   MissingPropertyRouletteValidationError,
   NotValidBetMoneyError,
+  NotValidBetPlaceError,
   NotValidIdRouletteValidationError
 } from './RouletteValidationError'
 
@@ -181,6 +182,26 @@ describe('RouletteDTOValidator', () => {
     const dto = { ...validDTO, betMoney: 0 }
     expectInvalidBetMoneyException(dto)
   })
+
+  it('Null betPlace', () => {
+    const dto = { ...validDTO, betPlace: null }
+    expectInvalidBetPlaceException(dto)
+  })
+
+  it('Empty betPlace', () => {
+    const dto = { ...validDTO, betPlace: '' }
+    expectInvalidBetPlaceException(dto)
+  })
+
+  it('Empty spaces betPlace', () => {
+    const dto = { ...validDTO, betPlace: '   ' }
+    expectInvalidBetPlaceException(dto)
+  })
+
+  it('Spaces inside betPlace', () => {
+    const dto = { ...validDTO, betPlace: 'multiple words' }
+    expectInvalidBetPlaceException(dto)
+  })
 })
 
 function expectMissingPropertyException(
@@ -203,5 +224,11 @@ function expectInvalidIdException(dto: RouletteDTO, idName: string) {
 function expectInvalidBetMoneyException(dto: RouletteDTO) {
   expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
     NotValidBetMoneyError
+  )
+}
+
+function expectInvalidBetPlaceException(dto: any) {
+  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
+    NotValidBetPlaceError
   )
 }
