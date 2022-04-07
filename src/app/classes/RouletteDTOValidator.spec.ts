@@ -27,6 +27,11 @@ describe('RouletteDTOValidator', () => {
   // pai-im
 
   let validDTO: any
+  // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+  const positiveInfinityNumber = 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  const negativeInfinityNumber =
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    -1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
   beforeEach(() => {
     validDTO = {
@@ -81,18 +86,15 @@ describe('RouletteDTOValidator', () => {
   it('Too big number boardId', () => {
     const dto = {
       ...validDTO,
-      // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
-      boardId: 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+      boardId: positiveInfinityNumber
     }
     expectInvalidIdException(dto, 'boardId')
   })
 
-  it('Too big number boardId', () => {
+  it('Too big negative number boardId', () => {
     const dto = {
       ...validDTO,
-      boardId:
-        // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
-        -1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+      boardId: negativeInfinityNumber
     }
     expectInvalidIdException(dto, 'boardId')
   })
@@ -105,6 +107,42 @@ describe('RouletteDTOValidator', () => {
   it('Zero boardId', () => {
     const dto = { ...validDTO, boardId: 0 }
     expectInvalidIdException(dto, 'boardId')
+  })
+
+  it('Null personId', () => {
+    const dto = { ...validDTO, personId: null }
+    expectInvalidIdException(dto, 'personId')
+  })
+
+  it('Not number personId', () => {
+    const dto = { ...validDTO, personId: 'invalidPersonId' }
+    expectInvalidIdException(dto, 'personId')
+  })
+
+  it('Too big number personId', () => {
+    const dto = {
+      ...validDTO,
+      personId: positiveInfinityNumber
+    }
+    expectInvalidIdException(dto, 'personId')
+  })
+
+  it('Too big negative number personId', () => {
+    const dto = {
+      ...validDTO,
+      personId: negativeInfinityNumber
+    }
+    expectInvalidIdException(dto, 'personId')
+  })
+
+  it('Negative personId', () => {
+    const dto = { ...validDTO, personId: -1 }
+    expectInvalidIdException(dto, 'personId')
+  })
+
+  it('Zero personId', () => {
+    const dto = { ...validDTO, personId: 0 }
+    expectInvalidIdException(dto, 'personId')
   })
 })
 

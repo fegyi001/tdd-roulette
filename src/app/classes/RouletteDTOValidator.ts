@@ -12,6 +12,7 @@ export class RouletteDTOValidator {
     this.dto = dto
     this.propertiesExist()
     this.boardIdValidation()
+    this.personIdValidation()
   }
 
   private static propertiesExist() {
@@ -31,18 +32,20 @@ export class RouletteDTOValidator {
   }
 
   private static boardIdValidation() {
-    if (this.isNotValidId()) {
+    if (this.isInvalidId(this.dto.boardId)) {
       throw new NotValidIdRouletteValidationError('boardId')
     }
   }
 
-  private static isNotValidId() {
+  private static personIdValidation() {
+    if (this.isInvalidId(this.dto.personId)) {
+      throw new NotValidIdRouletteValidationError('personId')
+    }
+  }
+
+  private static isInvalidId(id: number) {
     return (
-      this.dto.boardId === null ||
-      isNaN(this.dto.boardId) ||
-      this.dto.boardId === Infinity ||
-      this.dto.boardId === -Infinity ||
-      this.dto.boardId <= 0
+      id === null || isNaN(id) || id === Infinity || id === -Infinity || id <= 0
     )
   }
 }
