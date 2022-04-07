@@ -95,19 +95,19 @@ export class Board {
     if (betType === BetType.BOTTOM_COLUMN) {
       return this.calculateBottomColumnCasePay(betMoney)
     }
-    if (betType === BetType.SIX_NUMBERS && betNumber) {
+    if (betType === BetType.SIX_NUMBERS) {
       return this.calculateSixNumbersCasePay(betMoney, betNumber)
     }
-    if (betType === BetType.FOUR_NUMBERS && betNumber) {
+    if (betType === BetType.FOUR_NUMBERS) {
       return this.calculateFourNumbersCasePay(betMoney, betNumber)
     }
     if (betType === BetType.THREE_NUMBERS && betNumber) {
       return this.calculateThreeNumbersCasePay(betMoney, betNumber)
     }
-    if (betType === BetType.TWO_NUMBERS_HORIZONTAL && betNumber) {
+    if (betType === BetType.TWO_NUMBERS_HORIZONTAL) {
       return this.calculateTwoNumbersHorizontalCasePay(betMoney, betNumber)
     }
-    if (betType === BetType.TWO_NUMBERS_VERTICAL && betNumber) {
+    if (betType === BetType.TWO_NUMBERS_VERTICAL) {
       return this.calculateTwoNumbersVerticalCasePay(betMoney, betNumber)
     }
     throw new Error('Bet type not supported')
@@ -118,16 +118,19 @@ export class Board {
       return true
     }
     if (betType === BetType.SIX_NUMBERS) {
-      return this.isSixNumbersBetNumberValid(betNumber)
+      return this.isSixNumbersBetNumberInValid(betNumber)
     }
     if (betType === BetType.FOUR_NUMBERS) {
-      return this.isFourNumbersBetNumberValid(betNumber)
+      return this.isFourNumbersBetNumberInValid(betNumber)
+    }
+    if (betType === BetType.THREE_NUMBERS) {
+      return this.isThreeNumbersBetNumberInValid(betNumber)
     }
     if (betType === BetType.TWO_NUMBERS_HORIZONTAL) {
-      return this.isTwoNumbersHorizontalBetNumberValid(betNumber)
+      return this.isTwoNumbersHorizontalBetNumberInValid(betNumber)
     }
     if (betType === BetType.TWO_NUMBERS_VERTICAL) {
-      return this.isTwoNumbersVerticalBetNumberValid(betNumber)
+      return this.isTwoNumbersVerticalBetNumberInValid(betNumber)
     }
     return false
   }
@@ -136,13 +139,13 @@ export class Board {
     return betNumber !== undefined && (betNumber < 0 || betNumber > 36)
   }
 
-  private isSixNumbersBetNumberValid(betNumber: number | undefined) {
+  private isSixNumbersBetNumberInValid(betNumber: number | undefined) {
     return (
       betNumber === undefined || betNumber > 33 || !this.isTopColumn(betNumber)
     )
   }
 
-  private isFourNumbersBetNumberValid(betNumber: number | undefined) {
+  private isFourNumbersBetNumberInValid(betNumber: number | undefined) {
     return (
       betNumber === undefined ||
       this.isBottomColumn(betNumber) ||
@@ -150,11 +153,17 @@ export class Board {
     )
   }
 
-  private isTwoNumbersHorizontalBetNumberValid(betNumber: number | undefined) {
+  private isThreeNumbersBetNumberInValid(betNumber: number | undefined) {
+    return betNumber === undefined
+  }
+
+  private isTwoNumbersHorizontalBetNumberInValid(
+    betNumber: number | undefined
+  ) {
     return betNumber === undefined || this.isBottomColumn(betNumber)
   }
 
-  private isTwoNumbersVerticalBetNumberValid(betNumber: number | undefined) {
+  private isTwoNumbersVerticalBetNumberInValid(betNumber: number | undefined) {
     return betNumber === undefined || this.isLastRow(betNumber)
   }
 
@@ -265,7 +274,10 @@ export class Board {
     )
   }
 
-  private calculateSixNumbersCasePay(betMoney: number, betNumber: number) {
+  private calculateSixNumbersCasePay(
+    betMoney: number,
+    betNumber: number | undefined
+  ) {
     const winCells = this.createFixedLengthArrayFromStart(6, betNumber)
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
@@ -274,7 +286,10 @@ export class Board {
     )
   }
 
-  private calculateFourNumbersCasePay(betMoney: number, betNumber: number) {
+  private calculateFourNumbersCasePay(
+    betMoney: number,
+    betNumber: number | undefined
+  ) {
     const winCells = this.createFixedLengthArrayFromStart(5, betNumber)
     winCells.splice(2, 1)
     return this.calculatePaidMoney(
@@ -284,7 +299,10 @@ export class Board {
     )
   }
 
-  private calculateThreeNumbersCasePay(betMoney: number, betNumber: number) {
+  private calculateThreeNumbersCasePay(
+    betMoney: number,
+    betNumber: number | undefined
+  ) {
     const winCells = this.createFixedLengthArrayFromStart(3, betNumber)
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
@@ -295,7 +313,7 @@ export class Board {
 
   private calculateTwoNumbersHorizontalCasePay(
     betMoney: number,
-    betNumber: number
+    betNumber: number | undefined
   ) {
     const winCells = this.createFixedLengthArrayFromStart(2, betNumber)
     return this.calculatePaidMoney(
@@ -307,9 +325,9 @@ export class Board {
 
   private calculateTwoNumbersVerticalCasePay(
     betMoney: number,
-    betNumber: number
+    betNumber: number | undefined
   ) {
-    const winCells = [betNumber, betNumber + 3]
+    const winCells = [betNumber, betNumber === undefined ? 0 : betNumber + 3]
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
@@ -317,8 +335,14 @@ export class Board {
     )
   }
 
-  private createFixedLengthArrayFromStart(length: number, start: number) {
-    return Array.from({ length }, (_, i) => i + start)
+  private createFixedLengthArrayFromStart(
+    length: number,
+    start: number | undefined
+  ) {
+    return Array.from(
+      { length },
+      (_, i) => i + (start === undefined ? 0 : start)
+    )
   }
 
   private calculatePaidMoney(

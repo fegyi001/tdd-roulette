@@ -192,6 +192,9 @@ describe('Board', () => {
   it('Bet SIX_NUMBERS exception', () => {
     const board = createSpyBoard(7)
     expect(() => {
+      board.roll(betMoney, BetType.SIX_NUMBERS)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
+    expect(() => {
       board.roll(betMoney, BetType.SIX_NUMBERS, 2)
     }).toThrowError(betNumberNotAllowedExceptionMessage)
     expect(() => {
@@ -214,8 +217,11 @@ describe('Board', () => {
     )
   })
 
-  it('Bet FOUR_NUMBERS_HORIZONTAL exception', () => {
+  it('Bet FOUR_NUMBERS exception', () => {
     const board = createSpyBoard(16)
+    expect(() => {
+      board.roll(betMoney, BetType.FOUR_NUMBERS)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
     expect(() => {
       board.roll(betMoney, BetType.FOUR_NUMBERS, 3)
     }).toThrowError(betNumberNotAllowedExceptionMessage)
@@ -236,6 +242,13 @@ describe('Board', () => {
     )
   })
 
+  it('Bet THREE_NUMBERS exception', () => {
+    const board = createSpyBoard(16)
+    expect(() => {
+      board.roll(betMoney, BetType.THREE_NUMBERS)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
+  })
+
   it('Bet TWO_NUMBERS_HORIZONTAL win', () => {
     const board = createSpyBoard(18)
     expect(board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL, 17)).toEqual(
@@ -252,6 +265,9 @@ describe('Board', () => {
 
   it('Bet TWO_NUMBERS_HORIZONTAL exception', () => {
     const board = createSpyBoard(16)
+    expect(() => {
+      board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
     expect(() => {
       board.roll(betMoney, BetType.TWO_NUMBERS_HORIZONTAL, 18)
     }).toThrowError(betNumberNotAllowedExceptionMessage)
@@ -271,6 +287,9 @@ describe('Board', () => {
 
   it('Bet TWO_NUMBERS_VERTICAL exception', () => {
     const board = createSpyBoard(16)
+    expect(() => {
+      board.roll(betMoney, BetType.TWO_NUMBERS_VERTICAL)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
     expect(() => {
       board.roll(betMoney, BetType.TWO_NUMBERS_VERTICAL, 34)
     }).toThrowError(betNumberNotAllowedExceptionMessage)
