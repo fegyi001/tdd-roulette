@@ -3,6 +3,7 @@ import { RouletteDTOValidator } from './RouletteDTOValidator'
 import {
   EmptyRouletteValidationError,
   MissingPropertyRouletteValidationError,
+  NotValidBetMoneyError,
   NotValidIdRouletteValidationError
 } from './RouletteValidationError'
 
@@ -144,6 +145,42 @@ describe('RouletteDTOValidator', () => {
     const dto = { ...validDTO, personId: 0 }
     expectInvalidIdException(dto, 'personId')
   })
+
+  it('Null betMoney', () => {
+    const dto = { ...validDTO, betMoney: null }
+    expectInvalidBetMoneyException(dto)
+  })
+
+  it('Not number betMoney', () => {
+    const dto = { ...validDTO, betMoney: 'invalidBetMoney' }
+    expectInvalidBetMoneyException(dto)
+  })
+
+  it('Too big number betMoney', () => {
+    const dto = {
+      ...validDTO,
+      betMoney: positiveInfinityNumber
+    }
+    expectInvalidBetMoneyException(dto)
+  })
+
+  it('Too big negative number betMoney', () => {
+    const dto = {
+      ...validDTO,
+      betMoney: negativeInfinityNumber
+    }
+    expectInvalidBetMoneyException(dto)
+  })
+
+  it('Negative betMoney', () => {
+    const dto = { ...validDTO, betMoney: -1 }
+    expectInvalidBetMoneyException(dto)
+  })
+
+  it('Zero betMoney', () => {
+    const dto = { ...validDTO, betMoney: 0 }
+    expectInvalidBetMoneyException(dto)
+  })
 })
 
 function expectMissingPropertyException(
@@ -161,4 +198,10 @@ function expectInvalidIdException(dto: RouletteDTO, idName: string) {
     NotValidIdRouletteValidationError
   )
   expect(() => RouletteDTOValidator.validate(dto)).toThrowError(idName)
+}
+
+function expectInvalidBetMoneyException(dto: RouletteDTO) {
+  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
+    NotValidBetMoneyError
+  )
 }

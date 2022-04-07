@@ -2,6 +2,7 @@ import { RouletteDTO } from '../models/roulette-dto'
 import {
   EmptyRouletteValidationError,
   MissingPropertyRouletteValidationError,
+  NotValidBetMoneyError,
   NotValidIdRouletteValidationError
 } from './RouletteValidationError'
 
@@ -13,6 +14,7 @@ export class RouletteDTOValidator {
     this.propertiesExist()
     this.boardIdValidation()
     this.personIdValidation()
+    this.betMoneyValidation()
   }
 
   private static propertiesExist() {
@@ -43,9 +45,21 @@ export class RouletteDTOValidator {
     }
   }
 
+  private static betMoneyValidation() {
+    if (this.isInvalidBetMoney(this.dto.betMoney)) {
+      throw new NotValidBetMoneyError('')
+    }
+  }
+
   private static isInvalidId(id: number) {
-    return (
-      id === null || isNaN(id) || id === Infinity || id === -Infinity || id <= 0
-    )
+    return this.isInvalidNumber(id) || id <= 0
+  }
+
+  private static isInvalidNumber(id: number) {
+    return id === null || isNaN(id) || id === Infinity || id === -Infinity
+  }
+
+  private static isInvalidBetMoney(betMoney: number) {
+    return this.isInvalidNumber(betMoney) || betMoney <= 0
   }
 }
