@@ -5,6 +5,7 @@ export class Board {
   payMultiplierForOneNumber = 36
   payMultiplierForBinaryChoice = 2
   payMultiplierForTernaryChoice = 3
+  payMultiplierForSixNumbers = 6
   payMultiplierForDoubleChoice = 18
   payLostGame = 0
   redNumbers = [
@@ -20,7 +21,7 @@ export class Board {
 
   public roll(betMoney: number, betType: BetType, betNumber?: number): number {
     this.nextSpin()
-    return this.calculatePay(betType, betMoney, betNumber)
+    return this.calculatePay(betMoney, betType, betNumber)
   }
 
   private nextSpin() {
@@ -28,8 +29,8 @@ export class Board {
   }
 
   private calculatePay(
-    betType: BetType,
     betMoney: number,
+    betType: BetType,
     betNumber: number | undefined
   ): number {
     return this.spunNumber === 0
@@ -56,7 +57,7 @@ export class Board {
     if (this.isBetNumberInvalid(betNumber, betType)) {
       throw new Error('Bet number is invalid')
     }
-    if (betType === BetType.ONE_NUMBER && betNumber) {
+    if (betType === BetType.ONE_NUMBER) {
       return this.calculateOneNumberCasePay(betNumber, betMoney)
     }
     if (betType === BetType.PASSE) {
@@ -117,20 +118,23 @@ export class Board {
     if (this.isNumberNotOnBoard(betNumber)) {
       return true
     }
+    if (betType === BetType.ONE_NUMBER) {
+      return this.isOneNumberBetNumberInvalid(betNumber)
+    }
     if (betType === BetType.SIX_NUMBERS) {
-      return this.isSixNumbersBetNumberInValid(betNumber)
+      return this.isSixNumbersBetNumberInvalid(betNumber)
     }
     if (betType === BetType.FOUR_NUMBERS) {
-      return this.isFourNumbersBetNumberInValid(betNumber)
+      return this.isFourNumbersBetNumberInvalid(betNumber)
     }
     if (betType === BetType.THREE_NUMBERS) {
-      return this.isThreeNumbersBetNumberInValid(betNumber)
+      return this.isThreeNumbersBetNumberInvalid(betNumber)
     }
     if (betType === BetType.TWO_NUMBERS_HORIZONTAL) {
-      return this.isTwoNumbersHorizontalBetNumberInValid(betNumber)
+      return this.isTwoNumbersHorizontalBetNumberInvalid(betNumber)
     }
     if (betType === BetType.TWO_NUMBERS_VERTICAL) {
-      return this.isTwoNumbersVerticalBetNumberInValid(betNumber)
+      return this.isTwoNumbersVerticalBetNumberInvalid(betNumber)
     }
     return false
   }
@@ -139,13 +143,17 @@ export class Board {
     return betNumber !== undefined && (betNumber < 0 || betNumber > 36)
   }
 
-  private isSixNumbersBetNumberInValid(betNumber: number | undefined) {
+  private isOneNumberBetNumberInvalid(betNumber: number | undefined) {
+    return betNumber === undefined
+  }
+
+  private isSixNumbersBetNumberInvalid(betNumber: number | undefined) {
     return (
       betNumber === undefined || betNumber > 33 || !this.isTopColumn(betNumber)
     )
   }
 
-  private isFourNumbersBetNumberInValid(betNumber: number | undefined) {
+  private isFourNumbersBetNumberInvalid(betNumber: number | undefined) {
     return (
       betNumber === undefined ||
       this.isBottomColumn(betNumber) ||
@@ -153,17 +161,17 @@ export class Board {
     )
   }
 
-  private isThreeNumbersBetNumberInValid(betNumber: number | undefined) {
+  private isThreeNumbersBetNumberInvalid(betNumber: number | undefined) {
     return betNumber === undefined
   }
 
-  private isTwoNumbersHorizontalBetNumberInValid(
+  private isTwoNumbersHorizontalBetNumberInvalid(
     betNumber: number | undefined
   ) {
     return betNumber === undefined || this.isBottomColumn(betNumber)
   }
 
-  private isTwoNumbersVerticalBetNumberInValid(betNumber: number | undefined) {
+  private isTwoNumbersVerticalBetNumberInvalid(betNumber: number | undefined) {
     return betNumber === undefined || this.isLastRow(betNumber)
   }
 
@@ -278,11 +286,11 @@ export class Board {
     betMoney: number,
     betNumber: number | undefined
   ) {
-    const winCells = this.createFixedLengthArrayFromStart(6, betNumber)
+    const winCells = this.createFixedLengthArrayFromStart(betNumber, 6)
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
-      6
+      this.payMultiplierForSixNumbers
     )
   }
 
@@ -290,7 +298,7 @@ export class Board {
     betMoney: number,
     betNumber: number | undefined
   ) {
-    const winCells = this.createFixedLengthArrayFromStart(5, betNumber)
+    const winCells = this.createFixedLengthArrayFromStart(betNumber, 5)
     winCells.splice(2, 1)
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
@@ -303,7 +311,7 @@ export class Board {
     betMoney: number,
     betNumber: number | undefined
   ) {
-    const winCells = this.createFixedLengthArrayFromStart(3, betNumber)
+    const winCells = this.createFixedLengthArrayFromStart(betNumber, 3)
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
@@ -315,7 +323,7 @@ export class Board {
     betMoney: number,
     betNumber: number | undefined
   ) {
-    const winCells = this.createFixedLengthArrayFromStart(2, betNumber)
+    const winCells = this.createFixedLengthArrayFromStart(betNumber, 2)
     return this.calculatePaidMoney(
       winCells.includes(this.spunNumber),
       betMoney,
@@ -336,8 +344,8 @@ export class Board {
   }
 
   private createFixedLengthArrayFromStart(
-    length: number,
-    start: number | undefined
+    start: number | undefined,
+    length: number
   ) {
     return Array.from(
       { length },

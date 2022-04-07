@@ -25,6 +25,13 @@ describe('Board', () => {
     )
   })
 
+  it('Bet ONE_NUMBER exception', () => {
+    const board = createSpyBoard(9)
+    expect(() => {
+      board.roll(betMoney, BetType.ONE_NUMBER)
+    }).toThrowError(betNumberNotAllowedExceptionMessage)
+  })
+
   it('Bet PASSE win', () => {
     const board = createSpyBoard(19)
     expect(board.roll(betMoney, BetType.PASSE)).toEqual(200)
