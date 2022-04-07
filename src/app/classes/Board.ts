@@ -151,7 +151,9 @@ export class Board {
 
   private isSixNumbersBetNumberInvalid(betNumber: number | undefined) {
     return (
-      betNumber === undefined || betNumber > 33 || !this.isTopColumn(betNumber)
+      betNumber === undefined ||
+      this.isLastRow(betNumber) ||
+      !this.isTopColumn(betNumber)
     )
   }
 

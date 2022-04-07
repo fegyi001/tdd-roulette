@@ -1790,6 +1790,15 @@
     semver "~6.3.0"
     tslib "~2.3.0"
 
+"@stryker-mutator/typescript-checker@^5.6.1":
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/@stryker-mutator/typescript-checker/-/typescript-checker-5.6.1.tgz#649cf6cbfc427fd4e00fee3e01d78eba4e1fb066"
+  integrity sha512-vHYroi8f/7w31wfJC330+p7r92+Ax1A4VBN6E8EDvm97HTm+mAjuq+OyJngzSTlsH3hhSed8dKh7Trb/BjRFgQ==
+  dependencies:
+    "@stryker-mutator/api" "5.6.1"
+    "@stryker-mutator/util" "5.6.1"
+    semver "~7.3.2"
+
 "@stryker-mutator/util@5.6.1":
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/@stryker-mutator/util/-/util-5.6.1.tgz#598ceafbe57ba3fa0ae5ab1608f4ad40f829ce32"
@@ -5732,6 +5741,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lru-cache@^7.4.0:
+  version "7.7.3"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.7.3.tgz#98cd19eef89ce6a4a3c4502c17c833888677c252"
+  integrity sha512-WY9wjJNQt9+PZilnLbuFKM+SwDull9+6IAguOrarOMoOHTcJ9GnXSO11+Gw6c7xtDkBkthR57OZMtZKYr+1CEw==
+
 lru-cache@^7.5.1:
   version "7.7.1"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.7.1.tgz#03d2846b1ad2dcc7931a9340b8711d9798fcb0c6"
@@ -7501,6 +7515,13 @@ semver@^6.0.0, semver@^6.1.1, semver@^6.1.2, semver@^6.3.0, semver@~6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
+
+semver@~7.3.2:
+  version "7.3.6"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.6.tgz#5d73886fb9c0c6602e79440b97165c29581cbb2b"
+  integrity sha512-HZWqcgwLsjaX1HBD31msI/rXktuIhS+lWvdE4kN9z+8IVT4Itc7vqU2WvYsyD6/sjYCt4dEKH/m1M3dwI9CC5w==
+  dependencies:
+    lru-cache "^7.4.0"
 
 send@0.17.2:
   version "0.17.2"

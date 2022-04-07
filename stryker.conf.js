@@ -24,5 +24,7 @@ module.exports = {
   concurrency: 4,
   concurrency_comment:
     'Recommended to use about half of your available cores when running stryker with angular',
-  coverageAnalysis: 'perTest'
+  coverageAnalysis: 'perTest',
+  checkers: ['typescript'],
+  tsconfigFile: 'tsconfig.json'
 }
