@@ -4,30 +4,10 @@ import {
   EmptyRouletteValidationError,
   MissingPropertyRouletteValidationError,
   NotValidBetMoneyError,
-  NotValidBetPlaceError,
   NotValidIdRouletteValidationError
 } from './RouletteValidationError'
 
-describe('RouletteDTOValidator', () => {
-  // 34
-  // p
-  // d
-  // m
-  // black és b is
-  // red és r is
-  // 1c
-  // 2c
-  // 3c
-  // 2-3
-  // 2-5
-  // 7-12
-  // 5-9
-  // hatos blokk: eleje - vége
-  // négyes blokk: eleje- vége
-  // pa
-  // ma
-  // pai-im
-
+describe('RouletteDTOValidator for boardId, personId and betMoney', () => {
   let validDTO: any
   // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
   const positiveInfinityNumber = 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -183,25 +163,11 @@ describe('RouletteDTOValidator', () => {
     expectInvalidBetMoneyException(dto)
   })
 
-  it('Null betPlace', () => {
-    const dto = { ...validDTO, betPlace: null }
-    expectInvalidBetPlaceException(dto)
-  })
-
-  it('Empty betPlace', () => {
-    const dto = { ...validDTO, betPlace: '' }
-    expectInvalidBetPlaceException(dto)
-  })
-
-  it('Empty spaces betPlace', () => {
-    const dto = { ...validDTO, betPlace: '   ' }
-    expectInvalidBetPlaceException(dto)
-  })
-
-  it('Spaces inside betPlace', () => {
-    const dto = { ...validDTO, betPlace: 'multiple words' }
-    expectInvalidBetPlaceException(dto)
-  })
+  // TODO: értékkészlet, pl. 5 centnél kisebb, max 1000 euro stb
+  // it('Zero betMoney', () => {
+  //   const dto = { ...validDTO, betMoney: 0.0025 }
+  // expectInvalidBetMoneyException(dto)
+  // })
 })
 
 function expectMissingPropertyException(
@@ -224,11 +190,5 @@ function expectInvalidIdException(dto: RouletteDTO, idName: string) {
 function expectInvalidBetMoneyException(dto: RouletteDTO) {
   expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
     NotValidBetMoneyError
-  )
-}
-
-function expectInvalidBetPlaceException(dto: any) {
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
-    NotValidBetPlaceError
   )
 }
