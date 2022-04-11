@@ -1,20 +1,26 @@
-import { RouletteError } from './RouletteError'
+import { RouletteError, RouletteErrorWithMessage } from './RouletteError'
 
 export class RouletteValidationError extends RouletteError {
-  constructor(message: string) {
-    super(message)
+  constructor() {
+    super()
     Object.setPrototypeOf(this, RouletteValidationError.prototype)
   }
 }
-
-export class EmptyRouletteValidationError extends RouletteValidationError {
+export class RouletteValidationErrorWithMessage extends RouletteErrorWithMessage {
   constructor(message: string) {
     super(message)
+    Object.setPrototypeOf(this, RouletteValidationErrorWithMessage.prototype)
+  }
+}
+
+export class EmptyRouletteValidationError extends RouletteError {
+  constructor() {
+    super()
     Object.setPrototypeOf(this, EmptyRouletteValidationError.prototype)
   }
 }
 
-export class MissingPropertyRouletteValidationError extends RouletteValidationError {
+export class MissingPropertyRouletteValidationError extends RouletteErrorWithMessage {
   constructor(message: string) {
     super(message)
     Object.setPrototypeOf(
@@ -24,23 +30,23 @@ export class MissingPropertyRouletteValidationError extends RouletteValidationEr
   }
 }
 
-export class NotValidIdRouletteValidationError extends RouletteValidationError {
+export class NotValidIdRouletteValidationError extends RouletteErrorWithMessage {
   constructor(message: string) {
     super(message)
     Object.setPrototypeOf(this, NotValidIdRouletteValidationError.prototype)
   }
 }
 
-export class NotValidBetMoneyError extends RouletteValidationError {
-  constructor(message: string) {
-    super(message)
+export class NotValidBetMoneyError extends RouletteError {
+  constructor() {
+    super()
     Object.setPrototypeOf(this, NotValidBetMoneyError.prototype)
   }
 }
 
-export class NotValidBetPlaceError extends RouletteValidationError {
-  constructor(message: string) {
-    super(message)
+export class NotValidBetPlaceError extends RouletteError {
+  constructor() {
+    super()
     Object.setPrototypeOf(this, NotValidBetPlaceError.prototype)
   }
 }

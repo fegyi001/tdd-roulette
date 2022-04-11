@@ -21,7 +21,7 @@ export class RouletteDTOValidator {
 
   private static propertiesExist() {
     if (Object.keys(this.dto).length === 0) {
-      throw new EmptyRouletteValidationError('')
+      throw new EmptyRouletteValidationError()
     }
     this.checkProperty('boardId')
     this.checkProperty('personId')
@@ -49,13 +49,13 @@ export class RouletteDTOValidator {
 
   private static betPlaceValidation() {
     if (this.isInvalidBetPlace()) {
-      throw new NotValidBetPlaceError('')
+      throw new NotValidBetPlaceError()
     }
   }
 
   private static betMoneyValidation() {
     if (this.isInvalidBetMoney()) {
-      throw new NotValidBetMoneyError('')
+      throw new NotValidBetMoneyError()
     }
   }
 
