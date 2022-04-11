@@ -1,13 +1,13 @@
 import { RouletteDTO } from '../models/roulette-dto'
 import {
-  EmptyRouletteValidationError,
-  MissingPropertyRouletteValidationError,
+  EmptyBetValidationError,
+  MissingPropertyBetValidationError,
   NotValidBetMoneyError,
   NotValidBetPlaceError,
-  NotValidIdRouletteValidationError
-} from './RouletteValidationError'
+  NotValidIdBetValidationError
+} from './BetValidationError'
 
-export class RouletteDTOValidator {
+export class BetDTOValidator {
   static dto: RouletteDTO
 
   static validate(dto: RouletteDTO) {
@@ -21,7 +21,7 @@ export class RouletteDTOValidator {
 
   private static propertiesExist() {
     if (Object.keys(this.dto).length === 0) {
-      throw new EmptyRouletteValidationError()
+      throw new EmptyBetValidationError()
     }
     this.checkProperty('boardId')
     this.checkProperty('personId')
@@ -31,19 +31,19 @@ export class RouletteDTOValidator {
 
   private static checkProperty(property: string) {
     if (!(property in this.dto)) {
-      throw new MissingPropertyRouletteValidationError(property)
+      throw new MissingPropertyBetValidationError(property)
     }
   }
 
   private static boardIdValidation() {
     if (this.isInvalidId(this.dto.boardId)) {
-      throw new NotValidIdRouletteValidationError('boardId')
+      throw new NotValidIdBetValidationError('boardId')
     }
   }
 
   private static personIdValidation() {
     if (this.isInvalidId(this.dto.personId)) {
-      throw new NotValidIdRouletteValidationError('personId')
+      throw new NotValidIdBetValidationError('personId')
     }
   }
 

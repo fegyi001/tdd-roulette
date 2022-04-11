@@ -1,7 +1,7 @@
-import { RouletteDTOValidator } from './RouletteDTOValidator'
-import { NotValidBetPlaceError } from './RouletteValidationError'
+import { BetDTOValidator } from './BetDTOValidator'
+import { NotValidBetPlaceError } from './BetValidationError'
 
-describe('RouletteDTOValidator for betPlace', () => {
+describe('BetDTOValidator for betPlace', () => {
   // 34
   // p
   // d
@@ -54,7 +54,7 @@ describe('RouletteDTOValidator for betPlace', () => {
 })
 
 function expectInvalidBetPlaceException(dto: any) {
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
+  expect(() => BetDTOValidator.validate(dto)).toThrowError(
     NotValidBetPlaceError
   )
 }

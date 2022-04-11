@@ -1,6 +1,6 @@
 import { RouletteDTO } from '../models/roulette-dto'
+import { BetDTOValidator } from './BetDTOValidator'
 import { Roulette } from './Roulette'
-import { RouletteDTOValidator } from './RouletteDTOValidator'
 
 describe('Roulette', () => {
   it('should create an instance', () => {
@@ -14,9 +14,9 @@ describe('Roulette', () => {
       betMoney: 100,
       betPlace: '1'
     }
-    spyOn(RouletteDTOValidator, 'validate').and.returnValue()
+    spyOn(BetDTOValidator, 'validate').and.returnValue()
     const roulette = new Roulette()
     roulette.play(dto)
-    expect(RouletteDTOValidator.validate).toHaveBeenCalledWith(dto)
+    expect(BetDTOValidator.validate).toHaveBeenCalledWith(dto)
   })
 })

@@ -1,13 +1,13 @@
 import { RouletteDTO } from '../models/roulette-dto'
-import { RouletteDTOValidator } from './RouletteDTOValidator'
+import { BetDTOValidator } from './BetDTOValidator'
 import {
-  EmptyRouletteValidationError,
-  MissingPropertyRouletteValidationError,
+  EmptyBetValidationError,
+  MissingPropertyBetValidationError,
   NotValidBetMoneyError,
-  NotValidIdRouletteValidationError
-} from './RouletteValidationError'
+  NotValidIdBetValidationError
+} from './BetValidationError'
 
-describe('RouletteDTOValidator for boardId, personId and betMoney', () => {
+describe('BetDTOValidator for boardId, personId and betMoney', () => {
   let validDTO: any
   // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
   const positiveInfinityNumber = 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -25,13 +25,13 @@ describe('RouletteDTOValidator for boardId, personId and betMoney', () => {
   })
 
   it('Positive case', () => {
-    expect(() => RouletteDTOValidator.validate(validDTO)).not.toThrowError()
+    expect(() => BetDTOValidator.validate(validDTO)).not.toThrowError()
   })
 
   it('Empty DTO', () => {
     const dto: any = {}
-    expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
-      EmptyRouletteValidationError
+    expect(() => BetDTOValidator.validate(dto)).toThrowError(
+      EmptyBetValidationError
     )
   })
 
@@ -174,21 +174,21 @@ function expectMissingPropertyException(
   dto: RouletteDTO,
   propertyName: string
 ) {
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
-    MissingPropertyRouletteValidationError
+  expect(() => BetDTOValidator.validate(dto)).toThrowError(
+    MissingPropertyBetValidationError
   )
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(propertyName)
+  expect(() => BetDTOValidator.validate(dto)).toThrowError(propertyName)
 }
 
 function expectInvalidIdException(dto: RouletteDTO, idName: string) {
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
-    NotValidIdRouletteValidationError
+  expect(() => BetDTOValidator.validate(dto)).toThrowError(
+    NotValidIdBetValidationError
   )
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(idName)
+  expect(() => BetDTOValidator.validate(dto)).toThrowError(idName)
 }
 
 function expectInvalidBetMoneyException(dto: RouletteDTO) {
-  expect(() => RouletteDTOValidator.validate(dto)).toThrowError(
+  expect(() => BetDTOValidator.validate(dto)).toThrowError(
     NotValidBetMoneyError
   )
 }

@@ -1,5 +1,5 @@
 import { RouletteDTO } from '../models/roulette-dto'
-import { RouletteDTOValidator } from './RouletteDTOValidator'
+import { BetDTOValidator } from './BetDTOValidator'
 
 export class Roulette {
   public play(dto: RouletteDTO) {
@@ -9,6 +9,6 @@ export class Roulette {
     // returns exception if invalid
     // if valid, then parse dto
 
-    RouletteDTOValidator.validate(dto)
+    BetDTOValidator.validate(dto)
   }
 }
