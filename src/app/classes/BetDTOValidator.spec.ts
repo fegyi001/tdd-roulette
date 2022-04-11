@@ -1,4 +1,4 @@
-import { RouletteDTO } from '../models/roulette-dto'
+import { BetDTO } from '../models/bet-dto'
 import { BetDTOValidator } from './BetDTOValidator'
 import {
   EmptyBetValidationError,
@@ -170,24 +170,21 @@ describe('BetDTOValidator for boardId, personId and betMoney', () => {
   // })
 })
 
-function expectMissingPropertyException(
-  dto: RouletteDTO,
-  propertyName: string
-) {
+function expectMissingPropertyException(dto: BetDTO, propertyName: string) {
   expect(() => BetDTOValidator.validate(dto)).toThrowError(
     MissingPropertyBetValidationError
   )
   expect(() => BetDTOValidator.validate(dto)).toThrowError(propertyName)
 }
 
-function expectInvalidIdException(dto: RouletteDTO, idName: string) {
+function expectInvalidIdException(dto: BetDTO, idName: string) {
   expect(() => BetDTOValidator.validate(dto)).toThrowError(
     NotValidIdBetValidationError
   )
   expect(() => BetDTOValidator.validate(dto)).toThrowError(idName)
 }
 
-function expectInvalidBetMoneyException(dto: RouletteDTO) {
+function expectInvalidBetMoneyException(dto: BetDTO) {
   expect(() => BetDTOValidator.validate(dto)).toThrowError(
     NotValidBetMoneyError
   )

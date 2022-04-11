@@ -1,9 +1,9 @@
 import { BetType } from '../enums/BetType'
-import { RouletteDTO } from '../models/roulette-dto'
+import { BetDTO } from '../models/bet-dto'
 import { Bet } from './Bet'
 
 export class BetDTOParser {
-  static parse(dto: RouletteDTO): Bet {
+  static parse(dto: BetDTO): Bet {
     const bet = new Bet()
     bet.betMoney = dto.betMoney
     if (!isNaN(Number(dto.betPlace))) {

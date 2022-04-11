@@ -1,9 +1,9 @@
 import { BetType } from '../enums/BetType'
-import { RouletteDTO } from '../models/roulette-dto'
+import { BetDTO } from '../models/bet-dto'
 import { BetDTOParser } from './BetDTOParser'
 
 describe('Bet DTO Parser', () => {
-  const betDTO: RouletteDTO = {
+  const betDTO: BetDTO = {
     personId: -1,
     boardId: -1,
     betMoney: 100,

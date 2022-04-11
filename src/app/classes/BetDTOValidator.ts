@@ -1,4 +1,4 @@
-import { RouletteDTO } from '../models/roulette-dto'
+import { BetDTO } from '../models/bet-dto'
 import {
   EmptyBetValidationError,
   MissingPropertyBetValidationError,
@@ -8,15 +8,19 @@ import {
 } from './BetValidationError'
 
 export class BetDTOValidator {
-  static dto: RouletteDTO
+  static dto: BetDTO
 
-  static validate(dto: RouletteDTO) {
+  static validate(dto: BetDTO) {
     this.dto = dto
     this.propertiesExist()
     this.boardIdValidation()
     this.personIdValidation()
     this.betMoneyValidation()
     this.betPlaceValidation()
+  }
+
+  static test() {
+    return true
   }
 
   private static propertiesExist() {

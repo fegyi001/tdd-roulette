@@ -1,14 +1,12 @@
-import { RouletteDTO } from '../models/roulette-dto'
+import { BetDTO } from '../models/bet-dto'
 import { BetDTOValidator } from './BetDTOValidator'
 
 export class Roulette {
-  public play(dto: RouletteDTO) {
-    // TODO:
-    // needs to validate dto
-    // RouletteDTOValidator with .validate(dto)
-    // returns exception if invalid
-    // if valid, then parse dto
+  public validator: BetDTOValidator = new BetDTOValidator()
 
+  public play(dto: BetDTO) {
     BetDTOValidator.validate(dto)
+    // TODO:
+    // if valid, then parse dto
   }
 }

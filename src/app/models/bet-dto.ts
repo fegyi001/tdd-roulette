@@ -1,4 +1,4 @@
-export interface RouletteDTO {
+export interface BetDTO {
   boardId: number
   personId: number
   betMoney: number
