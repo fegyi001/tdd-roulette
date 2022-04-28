@@ -135,4 +135,36 @@ describe('Bet DTO Parser', () => {
     expect(betObject.betType).toEqual(BetType.IMPAIR)
     expect(betObject.betPlace).toEqual(undefined)
   })
+
+  it('Parse TWO_NUMBERS_HORIZONTAL bet', () => {
+    const dto = { ...betDTO, betPlace: '2-3' }
+    const betObject = BetDTOParser.parse(dto)
+    expect(betObject.betMoney).toEqual(100)
+    expect(betObject.betType).toEqual(BetType.TWO_NUMBERS_HORIZONTAL)
+    expect(betObject.betPlace).toEqual(undefined)
+  })
+
+  it('Parse TWO_NUMBERS_VERTICAL bet', () => {
+    const dto = { ...betDTO, betPlace: '2-5' }
+    const betObject = BetDTOParser.parse(dto)
+    expect(betObject.betMoney).toEqual(100)
+    expect(betObject.betType).toEqual(BetType.TWO_NUMBERS_VERTICAL)
+    expect(betObject.betPlace).toEqual(undefined)
+  })
+
+  it('Parse FOUR_NUMBERS bet', () => {
+    const dto = { ...betDTO, betPlace: '5-9' }
+    const betObject = BetDTOParser.parse(dto)
+    expect(betObject.betMoney).toEqual(100)
+    expect(betObject.betType).toEqual(BetType.FOUR_NUMBERS)
+    expect(betObject.betPlace).toEqual(undefined)
+  })
+
+  it('Parse SIX_NUMBERS bet', () => {
+    const dto = { ...betDTO, betPlace: '7-12' }
+    const betObject = BetDTOParser.parse(dto)
+    expect(betObject.betMoney).toEqual(100)
+    expect(betObject.betType).toEqual(BetType.SIX_NUMBERS)
+    expect(betObject.betPlace).toEqual(undefined)
+  })
 })

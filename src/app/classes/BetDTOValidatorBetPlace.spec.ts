@@ -15,8 +15,6 @@ describe('BetDTOValidator for betPlace', () => {
   // 2-5
   // 7-12
   // 5-9
-  // hatos blokk: eleje - vége
-  // négyes blokk: eleje- vége
   // pa
   // ma
   // pai-im

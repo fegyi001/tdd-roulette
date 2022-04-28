@@ -58,6 +58,22 @@ export class BetDTOParser {
       this.setImpairBet(bet)
       return bet
     }
+    if (this.isTwoNumbersHorizontalGame(dto.betPlace)) {
+      this.setTwoNumbersHorizontalBet(bet)
+      return bet
+    }
+    if (this.isTwoNumbersVerticalGame(dto.betPlace)) {
+      this.setTwoNumbersVerticalBet(bet)
+      return bet
+    }
+    if (this.isFourNumbersGame(dto.betPlace)) {
+      this.setFourNumbersBet(bet)
+      return bet
+    }
+    if (this.isSixNumbersGame(dto.betPlace)) {
+      this.setSixNumbersBet(bet)
+      return bet
+    }
     throw new Error('Method not implemented.')
   }
 
@@ -164,5 +180,45 @@ export class BetDTOParser {
 
   private static setImpairBet(bet: Bet) {
     bet.betType = BetType.IMPAIR
+  }
+
+  private static isTwoNumbersHorizontalGame(betPlace: string) {
+    const numbers = this.getSplittedNumbers(betPlace)
+    return numbers[1] - numbers[0] === 1
+  }
+
+  private static getSplittedNumbers(betPlace: string) {
+    return betPlace.split('-').map((n) => Number(n))
+  }
+
+  private static setTwoNumbersHorizontalBet(bet: Bet) {
+    bet.betType = BetType.TWO_NUMBERS_HORIZONTAL
+  }
+
+  private static isTwoNumbersVerticalGame(betPlace: string) {
+    const numbers = this.getSplittedNumbers(betPlace)
+    return numbers[1] - numbers[0] === 3
+  }
+
+  private static setTwoNumbersVerticalBet(bet: Bet) {
+    bet.betType = BetType.TWO_NUMBERS_VERTICAL
+  }
+
+  private static isFourNumbersGame(betPlace: string) {
+    const numbers = this.getSplittedNumbers(betPlace)
+    return numbers[1] - numbers[0] === 4
+  }
+
+  private static setFourNumbersBet(bet: Bet) {
+    bet.betType = BetType.FOUR_NUMBERS
+  }
+
+  private static isSixNumbersGame(betPlace: string) {
+    const numbers = this.getSplittedNumbers(betPlace)
+    return numbers[1] - numbers[0] === 5
+  }
+
+  private static setSixNumbersBet(bet: Bet) {
+    bet.betType = BetType.SIX_NUMBERS
   }
 }
