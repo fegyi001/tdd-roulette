@@ -1,3 +1,4 @@
+import { BetType } from '../enums/BetType'
 import { BetDTO } from '../models/bet-dto'
 import { Bet } from './Bet'
 import { BetDTOParser } from './BetDTOParser'
@@ -30,7 +31,9 @@ describe('Roulette', () => {
 
   it('Should call RouletteDTOParser.parse on dto', () => {
     spyOn(BetDTOValidator, 'validate').and.returnValue()
-    spyOn(BetDTOParser, 'parse').and.returnValue(new Bet())
+    spyOn(BetDTOParser, 'parse').and.returnValue(
+      new Bet(100, -1, BetType.ONE_NUMBER)
+    )
     roulette.play(dto)
     expect(BetDTOParser.parse).toHaveBeenCalledWith(dto)
   })
