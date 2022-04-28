@@ -19,10 +19,6 @@ export class BetDTOValidator {
     this.betPlaceValidation()
   }
 
-  static test() {
-    return true
-  }
-
   private static propertiesExist() {
     if (Object.keys(this.dto).length === 0) {
       throw new EmptyBetValidationError()
