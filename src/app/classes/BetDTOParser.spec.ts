@@ -10,9 +10,9 @@ describe('Bet DTO Parser', () => {
     betPlace: 'empty'
   }
 
-  it('Temp test', () => {
+  it('Not existing corner case', () => {
     expect(() => BetDTOParser.parse(betDTO)).toThrowError(
-      'Method not implemented.'
+      'Not existing case during bet parsing, validator should have prevented this'
     )
   })
 

@@ -55,7 +55,9 @@ export class BetDTOParser {
     if (this.isSixNumbersGame(dto.betPlace)) {
       return new Bet(dto.betMoney, undefined, BetType.SIX_NUMBERS)
     }
-    throw new Error('Method not implemented.')
+    throw new Error(
+      'Not existing case during bet parsing, validator should have prevented this'
+    )
   }
 
   private static isOneNumberGame(betPlace: string) {
